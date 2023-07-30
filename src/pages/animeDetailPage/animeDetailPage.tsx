@@ -7,21 +7,25 @@ import {
   animeDetailHeaderInformationContainer,
 } from "../../styles";
 import { css } from "@emotion/react";
-import { Collection } from "../../interfaces";
+import { Anime } from "../../interfaces";
 
 type AnimeDetailPageProps = {
   data?: GetAnimeDetailQuery;
-  handleAddToCollection: (collection: Collection) => void;
+  selectedCollection: string;
+  handleAddToCollection: (anime: Anime) => void;
+  handleGoToCollectionDetail: () => void;
 };
 
 const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
   data,
+  selectedCollection,
   handleAddToCollection,
+  handleGoToCollectionDetail,
 }) => {
   return (
     <div>
       <h2>{data?.Media?.title?.english}</h2>
-      <button onClick={() => handleAddToCollection(data?.Media as Collection)}>
+      <button onClick={() => handleAddToCollection(data?.Media as Anime)}>
         ADD
       </button>
       <img
@@ -38,7 +42,12 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
         <div css={animeDetailHeaderInformationContainer}>
           <span>Duration: {data?.Media?.duration}</span>
           <span>Average Score: {data?.Media?.averageScore}</span>
-          <span>Episoded: {data?.Media?.episodes}</span>
+          <span>Episodes: {data?.Media?.episodes}</span>
+          {selectedCollection && (
+            <span onClick={handleGoToCollectionDetail}>
+              Collection: {selectedCollection}
+            </span>
+          )}
         </div>
       </div>
       <div>

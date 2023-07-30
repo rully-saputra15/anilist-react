@@ -1,11 +1,11 @@
 import { createContext } from "react";
-import { Collection, State } from "../interfaces";
+import { Anime, State } from "../interfaces";
 
 export const CollectionContext = createContext({});
 export const CollectionDispatchContext = createContext({});
 
 export const collectionReducer = (
-  state: Record<string, Collection[]> = initialState,
+  state: Record<string, Anime[]> = initialState,
   action: Record<string, any>
 ) => {
   switch (action.type) {
@@ -16,14 +16,19 @@ export const collectionReducer = (
       if (!isExisted) {
         state["New"] = [
           {
-            id: action.payload.id,
-            title: action.payload.title.english,
-            coverImage: action.payload.coverImage.large,
+            id: action.payload.anime.id,
+            title: action.payload.anime.title.english,
+            coverImage: action.payload.anime.coverImage.large,
           },
         ];
       } else {
-        if (state[action.payload.title.english]) {
-          state[action.payload.title.english].push(action.payload);
+        if (state[action.payload.collectionName]) {
+          const collectionName = action.payload.collectionName;
+          const isAnimeExistedInCollection = state[collectionName].find(
+            (anime) => anime.id === action.payload.anime.id
+          );
+          if (!isAnimeExistedInCollection)
+            state[action.payload.title.english].push(action.payload);
         }
       }
       return state;

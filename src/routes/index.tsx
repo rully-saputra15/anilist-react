@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         element: <CollectionListPageContainer />,
       },
       {
-        path: "collection/:id",
+        path: "collection/:collectionName",
         element: <CollectionDetailPageContainer />,
       },
     ],
