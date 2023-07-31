@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { Anime, State } from "../interfaces";
+import { Anime } from "../interfaces";
 
 export const CollectionContext = createContext({});
 export const CollectionDispatchContext = createContext({});
@@ -9,17 +9,17 @@ export const collectionReducer = (
   action: Record<string, any>
 ) => {
   switch (action.type) {
-    case "ADD_COLLECTION":
-      // eslint-disable-next-line no-case-declarations
-      const isExisted = Object.keys(state).length > 0;
-      console.log(action.payload);
-      if (!isExisted) {
+    case "ADD_ANIME_TO_COLLECTION":  
+      const anime: Anime =  {
+        id: action.payload.anime.id,
+        title: action.payload.anime.title.english,
+        coverImage: action.payload.anime.coverImage.large,
+      }
+
+      if (!action.payload.collectionName) {
+        console.log("masuk sini lagi")
         state["New"] = [
-          {
-            id: action.payload.anime.id,
-            title: action.payload.anime.title.english,
-            coverImage: action.payload.anime.coverImage.large,
-          },
+          anime,
         ];
       } else {
         if (state[action.payload.collectionName]) {
@@ -27,15 +27,25 @@ export const collectionReducer = (
           const isAnimeExistedInCollection = state[collectionName].find(
             (anime) => anime.id === action.payload.anime.id
           );
+          console.log(anime.id)
+          console.log(!isAnimeExistedInCollection)
           if (!isAnimeExistedInCollection)
-            state[action.payload.title.english].push(action.payload);
+            state[collectionName].push(anime);
         }
       }
+      console.log(state)
       return state;
+    case "ADD_NEW_COLLECTION":
+      const collections = Object.keys(state)
+      const isCollectionExisted = collections.find((collection) => collection === action.payload)
+      if(!isCollectionExisted) {
+        state[action.payload] = []
+      }
+      return state
     default: {
       throw Error("Unknown action: " + action.type);
     }
   }
 };
 
-export const initialState: Record<string, Collection[]> = {};
+export const initialState: Record<string, Anime[]> = {};

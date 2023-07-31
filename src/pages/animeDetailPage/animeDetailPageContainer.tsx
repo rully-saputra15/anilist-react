@@ -9,7 +9,7 @@ import {
 } from "../../store/reducer";
 import { Anime } from "../../interfaces";
 import Modal from "../../components/Modal";
-import { css } from "@emotion/react";
+import { ModalFormStyle } from "../../styles";
 
 const AnimeDetailPageContainer = () => {
   const { id } = useParams();
@@ -33,7 +33,6 @@ const AnimeDetailPageContainer = () => {
   const dispatch = useContext(CollectionDispatchContext);
 
   useEffect(() => {
-    console.log("use effect", collections);
     if (data) {
       Object.keys(collections).forEach((key: string) => {
         const collection = collections[key];
@@ -46,10 +45,28 @@ const AnimeDetailPageContainer = () => {
     }
   }, [collections, data]);
 
-  const handleAddToCollection = useCallback((anime: Anime) => {
-    setIsModalOpen(true);
-    setSelectedAnime(anime);
-  }, []);
+  const handleAddToCollection = useCallback(
+    (anime: Anime) => {
+      try {
+        if (!Object.keys(collections).length) {
+          dispatch({
+            type: "ADD_ANIME_TO_COLLECTION",
+            payload: {
+              anime: anime,
+              collectionName: "",
+            },
+          });
+          return;
+        }
+        setIsModalOpen(true);
+        setSelectedAnime(anime);
+        setSelectedCollection("New");
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [collections]
+  );
 
   const handleInsertNewCollection = useCallback(
     (ev: React.SyntheticEvent) => {
@@ -60,12 +77,13 @@ const AnimeDetailPageContainer = () => {
       const selectedCollection = target.collection.value;
 
       dispatch({
-        type: "ADD_COLLECTION",
+        type: "ADD_ANIME_TO_COLLECTION",
         payload: {
           anime: selectedAnime,
           collectionName: selectedCollection,
         },
       });
+
       setIsModalOpen(false);
       setSelectedCollection(selectedCollection);
     },
@@ -76,23 +94,18 @@ const AnimeDetailPageContainer = () => {
     navigate(`/collection/${selectedCollection}`);
   }, [navigate, selectedCollection]);
 
+  const handleShowModal = useCallback(() => {
+    setIsModalOpen(!isModalOpen);
+  }, [isModalOpen]);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error...</div>;
 
   return (
     <>
       {isModalOpen && (
-        <Modal title="Add to Collection">
-          <form
-            css={css({
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              width: "100%",
-              gap: "1rem",
-            })}
-            onSubmit={handleInsertNewCollection}
-          >
+        <Modal title="Add to Collection" handleCloseButton={handleShowModal}>
+          <form css={ModalFormStyle} onSubmit={handleInsertNewCollection}>
             <select id="collection" name="collection">
               {Object.keys(collections).map((key: string) => (
                 <option key={key} value={key}>

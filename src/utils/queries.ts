@@ -12,6 +12,7 @@ query GetAnimeList($page: Int, $perPage: Int) {
       media(type: ANIME) {
         id
         title {
+          native
           romaji
           english
         }
@@ -56,6 +57,7 @@ query GetAnimeDetail($id: Int) {
     trending
     studios{
       nodes {
+        id
         siteUrl
         name
       }

@@ -1,8 +1,8 @@
 export interface State {
-  [key: string]: Collection[];
+  [key: string]: Anime[];
 }
 
-export interface Collection {
+export interface Anime {
   id: number;
   title: string;
   coverImage: string;

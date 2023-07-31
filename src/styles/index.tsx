@@ -76,3 +76,29 @@ export const animeDetailCover = css({
   borderRadius: "1rem",
   shadow: "0 10px 10px rgba(0, 0, 0, 0.5)",
 });
+
+export const ModalFormStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  width: "100%",
+  gap: "1rem",
+});
+
+export const CollectionCardHeaderStyle = css({
+  paddingTop: "0.5rem",
+  paddingBottom: "0.5rem",
+  borderBottom: `1px solid ${primaryColor}`,
+  width: "100%",
+});
+export const CollectionCardStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-start",
+  alignItems: "flex-start",
+  gap: "0.5rem",
+  border: `1px solid ${primaryColor}`,
+  borderRadius: "15px",
+  backgroundColor: "white",
+  filter: "drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3))",
+});
