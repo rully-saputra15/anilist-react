@@ -17,9 +17,11 @@ query GetAnimeList($page: Int, $perPage: Int) {
           english
         }
         coverImage {
-          medium,
+          large
+          medium
         }
         bannerImage
+        averageScore
       }
     }
   }`);

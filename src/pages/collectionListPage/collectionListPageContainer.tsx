@@ -1,9 +1,10 @@
 import { useCallback, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CollectionListPage from "./collectionListPage";
 import { CollectionDispatchContext } from "../../store/reducer";
 import Modal from "../../components/Modal";
-import { ModalFormStyle } from "../../styles";
-import { useNavigate } from "react-router-dom";
+import { buttonStyle, modalFormStyle } from "../../styles";
+import Input from "../../components/Input";
 
 const CollectionListPageContainer = () => {
   const dispatch = useContext(CollectionDispatchContext);
@@ -72,7 +73,7 @@ const CollectionListPageContainer = () => {
     <>
       {isModalCreateOpen && (
         <Modal title="Add New Collection" handleCloseButton={handleShowModal}>
-          <form css={ModalFormStyle} onSubmit={handleAddToCollection}>
+          <form css={modalFormStyle} onSubmit={handleAddToCollection}>
             <input id="newCollection" name="newCollection" />
             <button type="submit">Add</button>
           </form>
@@ -83,13 +84,15 @@ const CollectionListPageContainer = () => {
           title="Update Collection"
           handleCloseButton={handleCloseUpdateModal}
         >
-          <form css={ModalFormStyle} onSubmit={handleUpdateCollection}>
-            <input
-              id="newCollectionName"
+          <form css={modalFormStyle} onSubmit={handleUpdateCollection}>
+            <Input
               name="newCollectionName"
+              label="New Collection Name"
               placeholder={selectedCollectionName}
             />
-            <button type="submit">Submit</button>
+            <button css={buttonStyle} type="submit">
+              Submit
+            </button>
           </form>
         </Modal>
       )}

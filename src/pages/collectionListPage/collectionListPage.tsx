@@ -1,10 +1,19 @@
 import { FC, useContext } from "react";
 import { CollectionContext } from "../../store/reducer";
 import { Anime } from "../../interfaces";
-import { CollectionCardHeaderStyle, CollectionCardStyle } from "../../styles";
+import {
+  animeCardCollectionStyle,
+  collectionCardContentStyle,
+  collectionCardHeaderStyle,
+  collectionCardStyle,
+  primaryDividerStyle,
+  titlePageStyle,
+} from "../../styles";
 import { BsPlusCircle } from "react-icons/bs";
+import { FiEdit2 } from "react-icons/fi";
 import Button from "../../components/Button";
 import { css } from "@emotion/react";
+import EmptyCollectionPlaceholder from "../../components/EmptyCollectionPlaceholder";
 
 type CollectionListPageProps = {
   handleShowModal: () => void;
@@ -18,29 +27,44 @@ const CollectionListPage: FC<CollectionListPageProps> = ({
   handleGoToCollection,
 }) => {
   const collections: Record<string, Anime[]> = useContext(CollectionContext);
-  console.log(collections);
+
   const renderCollection = () => {
     return Object.keys(collections).map((key: string) => {
-      const collection = collections[key];
+      const animes = collections[key];
       return (
-        <div css={CollectionCardStyle} key={key}>
-          <span
-            css={CollectionCardHeaderStyle}
-            onClick={() => handleOpenUpdateCollectionModal(key)}
-          >
-            {key}
-          </span>
-          {collection.map((collection: Anime) => {
-            return (
-              <span onClick={() => handleGoToCollection(key)}>
-                {collection.title}
-              </span>
-            );
-          })}
+        <div css={collectionCardStyle} key={key}>
+          <div css={collectionCardHeaderStyle}>
+            <span>{key}</span>
+            <FiEdit2 onClick={() => handleOpenUpdateCollectionModal(key)} />
+          </div>
+
+          <span css={primaryDividerStyle} />
+
+          {animes.length > 0 ? (
+            <div css={collectionCardContentStyle}>
+              {animes.slice(0, 3).map((anime: Anime) => {
+                return (
+                  <img
+                    key={anime.id}
+                    src={anime.coverImage}
+                    alt={anime.title}
+                    css={animeCardCollectionStyle}
+                    onClick={() => handleGoToCollection(key)}
+                  />
+                );
+              })}
+              {animes.length > 3 && <div>More</div>}
+            </div>
+          ) : (
+            <div style={{ width: "100%" }}>
+              <EmptyCollectionPlaceholder />
+            </div>
+          )}
         </div>
       );
     });
   };
+
   return (
     <div
       css={css({
@@ -51,12 +75,23 @@ const CollectionListPage: FC<CollectionListPageProps> = ({
         gap: "1rem",
       })}
     >
-      <Button
-        label="Collection"
-        handleClick={handleShowModal}
-        icon={<BsPlusCircle />}
-      />
-      <div>{renderCollection()}</div>
+      <div
+        css={css({
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+        })}
+      >
+        <span css={titlePageStyle}>Collections</span>
+        <Button
+          label="Collection"
+          handleClick={handleShowModal}
+          icon={<BsPlusCircle />}
+        />
+      </div>
+      <div style={{ width: "100%" }}>{renderCollection()}</div>
     </div>
   );
 };

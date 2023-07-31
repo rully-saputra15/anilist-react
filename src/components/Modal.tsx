@@ -8,7 +8,7 @@ type ModalProps = {
   handleCloseButton: () => void;
 };
 
-const ModalStyle = css({
+const modalStyle = css({
   position: "fixed",
   left: 0,
   top: 0,
@@ -22,7 +22,7 @@ const ModalStyle = css({
   zIndex: 100,
 });
 
-const ModalContentStyle = css({
+const modalContentStyle = css({
   width: "50%",
   backgroundColor: "#fff",
   padding: "3rem",
@@ -36,8 +36,8 @@ const ModalContentStyle = css({
 
 const Modal: FC<ModalProps> = ({ title, children, handleCloseButton }) => {
   return (
-    <div css={ModalStyle}>
-      <div css={ModalContentStyle}>
+    <div css={modalStyle}>
+      <div css={modalContentStyle}>
         <IoCloseSharp
           css={css({
             position: "absolute",

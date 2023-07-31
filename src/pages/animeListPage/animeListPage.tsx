@@ -4,9 +4,12 @@ import {
   cardContainerStyle,
   animeTitle,
   rowContainerStyle,
+  animeScoreCard,
 } from "../../styles";
 import "./style.css";
 import { css } from "@emotion/react";
+import { AiFillStar } from "react-icons/ai";
+import ButtonBasic from "../../components/ButtonBasic";
 
 type AnimeListPageProps = {
   isLoading: boolean;
@@ -29,9 +32,11 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
 }) => {
   return (
     <>
-      <div onClick={handlePreviousPage}>back</div>
-      <div>{currentPage}</div>
-      <div onClick={handleNextPage}>next</div>
+      <div css={rowContainerStyle}>
+        <ButtonBasic label="prev" handleClick={handlePreviousPage} />
+        <div>{currentPage}</div>
+        <ButtonBasic label="next" handleClick={handleNextPage} />
+      </div>
       {isLoading ? (
         <div>Loading...</div>
       ) : (
@@ -45,12 +50,21 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
                   onClick={() => handleGoToAnimeDetail(anime?.id ?? 0)}
                 >
                   <img
-                    src={anime?.coverImage?.medium || ""}
+                    src={anime?.coverImage?.large || ""}
                     alt={anime?.title?.english || ""}
+                    css={css({
+                      width: "10rem",
+                      height: "14rem",
+                      borderRadius: "12px",
+                    })}
                   />
                   <p css={animeTitle}>
                     {anime?.title?.english ?? anime?.title?.native}
                   </p>
+                  <div css={animeScoreCard}>
+                    <AiFillStar css={css({ color: "yellow" })} />
+                    {anime?.averageScore ? anime?.averageScore : "N/A"}
+                  </div>
                 </div>
               );
             })}

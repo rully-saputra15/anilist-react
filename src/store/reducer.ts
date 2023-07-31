@@ -50,26 +50,13 @@ export const collectionReducer = (
       const prevCollection = [...state[prevCollectionName]];
       const collectionNames = Object.keys(state);
 
-      const isCollectionUnique = collectionNames.findIndex(
-        (collection: string) => collection === action.payload.newCollectionName
-      );
-
-      console.log(state[prevCollectionName]);
-      console.log(action.payload.newCollectionName);
+      const isCollectionUnique =
+        collectionNames.findIndex(
+          (collection: string) =>
+            collection === action.payload.newCollectionName
+        ) === -1;
 
       if (isCollectionUnique) {
-        // const {[prevCollectionName]: remove, ...rest} = state
-        // console.log("rest",rest)
-        // console.log("removed",remove)
-        // delete state[prevCollectionName]
-        // const entries = Object.keys(state).map((key) => {
-        //   if (key !== prevCollectionName) return { [key]: state[key] };
-        // });
-        // console.log("entries", entries);
-        // Object.assign(state, {
-        //   ...entries,
-        //   [action.payload.newCollectionName]: prevCollection,
-        // });
         state = {
           ...state,
           [action.payload.newCollectionName]: prevCollection,

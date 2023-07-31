@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 
 import AnimeListPage from "./animeListPage";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { GET_ANIME_LIST } from "../../utils/queries";
 
@@ -61,7 +61,7 @@ const AnimeListPageContainer = () => {
     return () => {
       if (observerTarget.current) observer.unobserve(observerTarget.current);
     };
-  }, [observerTarget]);
+  }, [handleLoadMoreAnime, observerTarget]);
 
   const handlePreviousPage = useCallback(async () => {
     if (page.current > 1) {
@@ -72,7 +72,7 @@ const AnimeListPageContainer = () => {
         perPage: perPage.current,
       });
     }
-  }, [page.current]);
+  }, [refetch]);
 
   const handleNextPage = useCallback(async () => {
     page.current += 1;
@@ -81,7 +81,7 @@ const AnimeListPageContainer = () => {
       page: page.current,
       perPage: perPage.current,
     });
-  }, [page.current]);
+  }, [refetch]);
 
   if (error) return <div>Error...</div>;
   return (

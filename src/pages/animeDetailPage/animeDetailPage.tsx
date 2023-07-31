@@ -3,11 +3,16 @@ import { GetAnimeDetailQuery } from "../../__generated__/graphql";
 import {
   animeBanner,
   animeDetailCover,
+  animeDetailHeader,
   animeDetailHeaderContainer,
   animeDetailHeaderInformationContainer,
+  rowContainerStartCenterStyle,
 } from "../../styles";
 import { css } from "@emotion/react";
 import { Anime } from "../../interfaces";
+import { BsBookmark, BsCardList } from "react-icons/bs";
+import { BiTimeFive } from "react-icons/bi";
+import { AiOutlineStar } from "react-icons/ai";
 
 type AnimeDetailPageProps = {
   data?: GetAnimeDetailQuery;
@@ -23,31 +28,56 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
   handleGoToCollectionDetail,
 }) => {
   return (
-    <div>
-      <h2>{data?.Media?.title?.english}</h2>
-      <button onClick={() => handleAddToCollection(data?.Media as Anime)}>
-        ADD
-      </button>
-      <img
-        css={animeBanner}
-        src={data?.Media?.bannerImage || ""}
-        alt="banner"
-      />
-      <div css={animeDetailHeaderContainer}>
-        <img
-          css={animeDetailCover}
-          src={data?.Media?.coverImage?.large || ""}
-          alt="cover"
+    <div css={css({ display: "flex", flexDirection: "column", gap: "8px" })}>
+      <div
+        css={css({
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flex: 1,
+        })}
+      >
+        <span>{data?.Media?.title?.english}</span>
+        <BsBookmark
+          css={css({
+            fontSize: "1.5rem",
+          })}
+          onClick={() => handleAddToCollection(data?.Media as Anime)}
         />
-        <div css={animeDetailHeaderInformationContainer}>
-          <span>Duration: {data?.Media?.duration}</span>
-          <span>Average Score: {data?.Media?.averageScore}</span>
-          <span>Episodes: {data?.Media?.episodes}</span>
-          {selectedCollection && (
-            <span onClick={handleGoToCollectionDetail}>
-              Collection: {selectedCollection}
-            </span>
-          )}
+      </div>
+
+      <div css={animeDetailHeader}>
+        <img
+          css={animeBanner}
+          src={data?.Media?.bannerImage || ""}
+          alt="banner"
+        />
+        <div css={animeDetailHeaderContainer}>
+          <img
+            css={animeDetailCover}
+            src={data?.Media?.coverImage?.large || ""}
+            alt="cover"
+          />
+          <div css={animeDetailHeaderInformationContainer}>
+            <div css={rowContainerStartCenterStyle}>
+              <BiTimeFive />
+              <span>: {data?.Media?.duration} mins</span>
+            </div>
+            <div css={rowContainerStartCenterStyle}>
+              <AiOutlineStar />
+              <span>: {data?.Media?.averageScore}</span>
+            </div>
+            <div css={rowContainerStartCenterStyle}>
+              <BsCardList />
+              <span>: {data?.Media?.episodes} episodes</span>
+            </div>
+            {selectedCollection && (
+              <span onClick={handleGoToCollectionDetail}>
+                Collection: {selectedCollection}
+              </span>
+            )}
+          </div>
         </div>
       </div>
       <div>

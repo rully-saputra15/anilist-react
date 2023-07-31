@@ -11,7 +11,7 @@ const App = () => {
         <Navbar />
         <div
           css={css({
-            padding: "1rem",
+            margin: "1rem",
           })}
         >
           <CollectionProvider>

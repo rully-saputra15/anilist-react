@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
 import { tertiaryColor } from "../styles";
 import { NavLink } from "react-router-dom";
-
+import { GoHomeFill } from "react-icons/go";
+import { BsCollectionFill } from "react-icons/bs";
 const containerCss = css({
   display: "flex",
   flexDirection: "row",
@@ -16,12 +17,14 @@ const menuCss = css({
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",
-  gap: "0.5rem",
+  alignItems: "center",
+  gap: "1rem",
 });
 
 const linkCss = css({
   textDecoration: "none",
   color: "black",
+  fontSize: "1.3rem",
 });
 
 const Navbar = () => {
@@ -30,10 +33,10 @@ const Navbar = () => {
       <span>AniList</span>
       <div css={menuCss}>
         <NavLink to="/" css={linkCss}>
-          Home
+          <GoHomeFill />
         </NavLink>
         <NavLink to="/collection" css={linkCss}>
-          Collection
+          <BsCollectionFill />
         </NavLink>
       </div>
     </div>

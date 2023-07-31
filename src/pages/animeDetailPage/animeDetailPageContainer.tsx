@@ -9,7 +9,7 @@ import {
 } from "../../store/reducer";
 import { Anime } from "../../interfaces";
 import Modal from "../../components/Modal";
-import { ModalFormStyle } from "../../styles";
+import { modalFormStyle } from "../../styles";
 
 const AnimeDetailPageContainer = () => {
   const { id } = useParams();
@@ -105,7 +105,7 @@ const AnimeDetailPageContainer = () => {
     <>
       {isModalOpen && (
         <Modal title="Add to Collection" handleCloseButton={handleShowModal}>
-          <form css={ModalFormStyle} onSubmit={handleInsertNewCollection}>
+          <form css={modalFormStyle} onSubmit={handleInsertNewCollection}>
             <select id="collection" name="collection">
               {Object.keys(collections).map((key: string) => (
                 <option key={key} value={key}>
