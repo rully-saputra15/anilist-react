@@ -65,7 +65,7 @@ const AnimeDetailPageContainer = () => {
         console.log(err);
       }
     },
-    [collections]
+    [dispatch, collections]
   );
 
   const handleInsertNewCollection = useCallback(
