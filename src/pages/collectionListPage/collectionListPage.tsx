@@ -8,20 +8,34 @@ import { css } from "@emotion/react";
 
 type CollectionListPageProps = {
   handleShowModal: () => void;
+  handleOpenUpdateCollectionModal: (collectionName: string) => void;
+  handleGoToCollection: (collectionName: string) => void;
 };
 
 const CollectionListPage: FC<CollectionListPageProps> = ({
   handleShowModal,
+  handleOpenUpdateCollectionModal,
+  handleGoToCollection,
 }) => {
   const collections: Record<string, Anime[]> = useContext(CollectionContext);
+  console.log(collections);
   const renderCollection = () => {
     return Object.keys(collections).map((key: string) => {
       const collection = collections[key];
       return (
         <div css={CollectionCardStyle} key={key}>
-          <span css={CollectionCardHeaderStyle}>{key}</span>
+          <span
+            css={CollectionCardHeaderStyle}
+            onClick={() => handleOpenUpdateCollectionModal(key)}
+          >
+            {key}
+          </span>
           {collection.map((collection: Anime) => {
-            return <span>{collection.title}</span>;
+            return (
+              <span onClick={() => handleGoToCollection(key)}>
+                {collection.title}
+              </span>
+            );
           })}
         </div>
       );

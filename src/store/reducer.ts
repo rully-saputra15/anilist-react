@@ -42,10 +42,43 @@ export const collectionReducer = (
         state[action.payload] = []
       }
       return state
+    case "UPDATE_COLLECTION_NAME":
+        const prevCollectionName = action.payload.prevCollectionName
+        const prevCollection = [...state[prevCollectionName]]
+        const collectionNames = Object.keys(state)
+        
+        const isCollectionUnique = collectionNames.findIndex((collection: string) => collection === action.payload.newCollectionName)
+
+        console.log(state[prevCollectionName])
+        console.log(action.payload.newCollectionName)
+
+        if(isCollectionUnique){
+          // const {[prevCollectionName]: remove, ...rest} = state
+          // console.log("rest",rest)
+          // console.log("removed",remove)
+          // delete state[prevCollectionName]
+          Object.assign(state, {
+       
+            [action.payload.newCollectionName]: prevCollection
+          })[prevCollectionName]
+          delete state[prevCollectionName]
+        }
+        return state
+    case "DELETE_ANIME":
+      const newState = JSON.parse(JSON.stringify(state))
+      const collection = newState[action.payload.collectionName]
+      const newCollection = collection.findIndex((anime : Anime) => anime.id === action.payload.animeId)
+  
+      newState[action.payload.collectionName] = [
+        ...newState[action.payload.collectionName].slice(0, newCollection),
+        ...newState[action.payload.collectionName].slice(newCollection + 1)
+      ]
+      return newState
     default: {
       throw Error("Unknown action: " + action.type);
     }
   }
+  return state
 };
 
 export const initialState: Record<string, Anime[]> = {};

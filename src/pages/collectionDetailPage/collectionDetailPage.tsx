@@ -1,11 +1,29 @@
 import { FC } from "react";
-import { useParams } from "react-router-dom";
+import { Anime } from "../../interfaces";
 
-type CollectionDetailPageProps = object;
+type CollectionDetailPageProps = {
+  collectionName: string;
+  animes: Anime[];
+  handleDeleteAnime: (animeId: number) => void;
+};
 
-const CollectionDetailPage: FC<CollectionDetailPageProps> = () => {
-  const { collectionName } = useParams();
-  return <div>collection detail {collectionName}</div>;
+const CollectionDetailPage: FC<CollectionDetailPageProps> = ({
+  collectionName,
+  animes,
+  handleDeleteAnime,
+}) => {
+  return (
+    <div>
+      <div>{collectionName}</div>
+      {animes.map((anime) => (
+        <div key={anime.id}>
+          <div key={anime.id}>{anime.title}</div>
+          <button onClick={() => handleDeleteAnime(anime.id)}>delete</button>
+          <button>view</button>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default CollectionDetailPage;
