@@ -11,6 +11,9 @@ const containerCss = css({
   fontSize: "1rem",
   padding: "1rem",
   flex: "1 0 auto",
+  position: "sticky",
+  top: 0,
+  zIndex: 100,
 });
 
 const menuCss = css({

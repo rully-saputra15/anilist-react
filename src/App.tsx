@@ -7,17 +7,15 @@ import { CollectionProvider } from "./store";
 const App = () => {
   return (
     <>
-      <div>
-        <Navbar />
-        <div
-          css={css({
-            margin: "1rem",
-          })}
-        >
-          <CollectionProvider>
-            <Outlet />
-          </CollectionProvider>
-        </div>
+      <Navbar />
+      <div
+        css={css({
+          margin: "1rem",
+        })}
+      >
+        <CollectionProvider>
+          <Outlet />
+        </CollectionProvider>
       </div>
     </>
   );

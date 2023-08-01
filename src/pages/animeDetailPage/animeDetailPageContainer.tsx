@@ -14,6 +14,8 @@ import { modalFormStyle } from "../../styles";
 import useNavigator from "../../hooks/useNavigator";
 import useModal from "../../hooks/useModal";
 import { handleShowErrorToast } from "../../utils/toast";
+import Button from "../../components/Button";
+import Select from "../../components/Select";
 
 const AnimeDetailPageContainer = () => {
   const { id } = useParams();
@@ -73,7 +75,7 @@ const AnimeDetailPageContainer = () => {
         console.log(err);
       }
     },
-    [dispatch, collections]
+    [collections.data, handleShowModal, dispatch]
   );
 
   const handleInsertNewCollection = useCallback(
@@ -89,7 +91,7 @@ const AnimeDetailPageContainer = () => {
       handleCloseModal();
       setSelectedCollection(selectedCollection);
     },
-    [dispatch, selectedAnime]
+    [dispatch, handleCloseModal, selectedAnime]
   );
 
   const handleGoToCollectionDetail = useCallback(() => {
@@ -103,14 +105,12 @@ const AnimeDetailPageContainer = () => {
       {isModalOpen && (
         <Modal title="Add to Collection" handleCloseButton={handleCloseModal}>
           <form css={modalFormStyle} onSubmit={handleInsertNewCollection}>
-            <select id="collection" name="collection">
-              {Object.keys(collections.data).map((key: string) => (
-                <option key={key} value={key}>
-                  {key}
-                </option>
-              ))}
-            </select>
-            <button type="submit">Add</button>
+            <Select
+              id="collection"
+              label="Collections"
+              options={Object.keys(collections.data).map((key: string) => key)}
+            />
+            <Button label="Add" />
           </form>
         </Modal>
       )}

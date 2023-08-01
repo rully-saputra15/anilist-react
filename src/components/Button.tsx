@@ -2,9 +2,9 @@ import { FC } from "react";
 import { buttonStyle } from "../styles";
 
 type ButtonProps = {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   label: string;
-  handleClick: () => void;
+  handleClick?: () => void;
 };
 
 const Button: FC<ButtonProps> = ({ icon, label, handleClick }) => {

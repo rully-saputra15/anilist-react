@@ -7,41 +7,69 @@ import {
   animeScoreCard,
   rowContainerStartCenterStyle,
   rowContainerBetweenStyle,
+  cardImageStyle,
+  buttonStyle,
+  selectedCardContainerStyle,
 } from "../../styles";
 import "./style.css";
 import { css } from "@emotion/react";
 import { AiFillStar } from "react-icons/ai";
 import ButtonBasic from "../../components/ButtonBasic";
 import Loading from "../../components/Loading";
+import { Anime } from "../../interfaces";
 
 type AnimeListPageProps = {
   isLoading: boolean;
+  isBulkMode: boolean;
   currentPage: number;
+  selectedAnime: Anime[];
   animeList?: GetAnimeListQuery;
   observerTarget: React.MutableRefObject<null>;
   handleGoToAnimeDetail: (id: number) => void;
   handlePreviousPage: () => void;
   handleNextPage: () => void;
+  handleEnableBulkMode: () => void;
+  handleAddSelectedAnime: (anime: Anime) => void;
+  handleConfirmBulkAdd: () => void;
 };
 
 const AnimeListPage: FC<AnimeListPageProps> = ({
   isLoading,
+  isBulkMode,
   currentPage,
+  selectedAnime,
   animeList,
   observerTarget,
   handleGoToAnimeDetail,
   handlePreviousPage,
   handleNextPage,
+  handleEnableBulkMode,
+  handleAddSelectedAnime,
+  handleConfirmBulkAdd,
 }) => {
   return (
-    <>
+    <div>
+      {isBulkMode && (
+        <div
+          css={css({
+            position: "fixed",
+            bottom: 10,
+            right: "auto",
+            left: "auto",
+            ...buttonStyle,
+          })}
+          onClick={() => handleConfirmBulkAdd()}
+        >
+          Confirm
+        </div>
+      )}
       <div css={rowContainerBetweenStyle}>
         <div css={rowContainerStartCenterStyle}>
           <ButtonBasic label="<" handleClick={handlePreviousPage} />
           <span>{currentPage}</span>
           <ButtonBasic label=">" handleClick={handleNextPage} />
         </div>
-        <ButtonBasic label="Bulk" handleClick={() => {}} />
+        <ButtonBasic label="Bulk" handleClick={() => handleEnableBulkMode()} />
       </div>
       {isLoading ? (
         <Loading />
@@ -49,20 +77,33 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
         <>
           <div css={rowContainerStyle}>
             {animeList?.Page?.media?.map((anime) => {
+              const isSelected =
+                selectedAnime.findIndex(
+                  (el: Anime) => el.id === (anime?.id ?? 0)
+                ) !== -1;
+
+              const newAnime: Anime = {
+                id: anime?.id ?? 0,
+                title: anime?.title?.english ?? anime?.title?.native ?? "",
+                coverImage: anime?.coverImage?.large ?? "",
+              };
+
               return (
                 <div
                   key={anime?.id}
-                  css={cardContainerStyle}
-                  onClick={() => handleGoToAnimeDetail(anime?.id ?? 0)}
+                  css={
+                    isSelected ? selectedCardContainerStyle : cardContainerStyle
+                  }
+                  onClick={() =>
+                    isBulkMode
+                      ? handleAddSelectedAnime(newAnime)
+                      : handleGoToAnimeDetail(anime?.id ?? 0)
+                  }
                 >
                   <img
                     src={anime?.coverImage?.large || ""}
                     alt={anime?.title?.english || ""}
-                    css={css({
-                      width: "10rem",
-                      height: "14rem",
-                      borderRadius: "12px",
-                    })}
+                    css={cardImageStyle}
                   />
                   <p css={animeTitle}>
                     {anime?.title?.english ?? anime?.title?.native}
@@ -87,7 +128,7 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
           </div>
         </>
       )}
-    </>
+    </div>
   );
 };
 

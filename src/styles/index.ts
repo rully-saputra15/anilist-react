@@ -11,7 +11,8 @@ export const backgroundColor = "#F6F4EB";
 export const primaryColor = "#4682A9";
 export const secondaryColor = "#749BC2";
 export const tertiaryColor = "#91C8E4";
-
+export const redColor = "#ff5252";
+export const blackColor = "#353839";
 export const rowContainerStyle = css({
   display: "flex",
   flexDirection: "row",
@@ -26,15 +27,23 @@ export const rowContainerBetweenStyle = css({
   justifyContent: "space-between",
   flexWrap: "wrap",
   gap: "1rem",
-  paddingBottom: "1rem"
-})
+  paddingBottom: "1rem",
+});
 
 export const rowContainerStartCenterStyle = css({
   display: "flex",
   flexDirection: "row",
   justifyContent: "flex-start",
   alignItems: "center",
-  gap: "12px",
+  flexWrap: "wrap",
+  gap: "1rem",
+});
+
+export const columnContainerStartCenterStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-start",
+  alignItems: "center",
 });
 
 export const titlePageStyle = css({
@@ -53,8 +62,30 @@ export const cardContainerStyle = css({
   transition: "ease-in-out 0.2s",
   [`:hover`]: {
     transform: "scale(1.05) translateY(-5px)",
-  
-  }
+  },
+});
+export const selectedCardContainerStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-start",
+  alignItems: "center",
+  gap: "0.5rem",
+  position: "relative",
+  flex: "1 0 2",
+  filter: "drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3))",
+  transition: "ease-in-out 0.2s",
+  [`:hover`]: {
+    transform: "scale(1.05) translateY(-5px)",
+  },
+  opacity: "0.5",
+  // background:
+  //   "-webkit-linear-gradient(rgba(29, 38, 113, 0.8), rgba(195, 55, 100, 0.8))",
+});
+
+export const cardImageStyle = css({
+  width: "10rem",
+  height: "14rem",
+  borderRadius: "12px",
 });
 
 export const animeTitle = css({
@@ -69,6 +100,8 @@ export const animeTitle = css({
   bottom: "0",
   padding: "0 8px",
   color: "white",
+  backgroundColor: blackColor,
+  borderRadius: "12px",
 });
 
 export const animeScoreCard = css({
@@ -171,7 +204,7 @@ export const collectionCardStyle = css({
   borderRadius: "15px",
   backgroundColor: "white",
   filter: "drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3))",
-  marginBottom:"16px"
+  marginBottom: "16px",
 });
 
 export const collectionCardContentStyle = css({
@@ -203,7 +236,7 @@ export const buttonStyle = css({
   borderRadius: "10px",
   color: "white",
   transition: "ease-in-out 0.2s",
-
+  cursor: "pointer",
   [`:hover`]: {
     backgroundColor: secondaryColor,
     color: "black",

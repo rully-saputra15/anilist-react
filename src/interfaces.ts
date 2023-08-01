@@ -1,5 +1,5 @@
 export interface State {
-  errorMessage: string
+  errorMessage: string;
   data: CollectionState;
 }
 
@@ -11,4 +11,9 @@ export interface Anime {
   id: number;
   title: string;
   coverImage: string;
+}
+
+export interface SelectedAnime {
+  id: number;
+  title: string;
 }
