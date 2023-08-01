@@ -37,7 +37,6 @@ const AnimeListPageContainer = () => {
 
   const handleLoadMoreAnime = useCallback(async () => {
     perPage.current += NUMBER_OF_ANIME_ADDED;
-    console.log(perPage.current);
     await refetch({
       page: 1,
       perPage: perPage.current,
@@ -48,7 +47,6 @@ const AnimeListPageContainer = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          console.log("visible");
           handleLoadMoreAnime();
         }
       },
@@ -61,7 +59,7 @@ const AnimeListPageContainer = () => {
     return () => {
       if (observerTarget.current) observer.unobserve(observerTarget.current);
     };
-  }, [handleLoadMoreAnime, observerTarget]);
+  }, [observerTarget]);
 
   const handlePreviousPage = useCallback(async () => {
     if (page.current > 1) {

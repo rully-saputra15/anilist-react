@@ -5,11 +5,14 @@ import {
   animeTitle,
   rowContainerStyle,
   animeScoreCard,
+  rowContainerStartCenterStyle,
+  rowContainerBetweenStyle,
 } from "../../styles";
 import "./style.css";
 import { css } from "@emotion/react";
 import { AiFillStar } from "react-icons/ai";
 import ButtonBasic from "../../components/ButtonBasic";
+import Loading from "../../components/Loading";
 
 type AnimeListPageProps = {
   isLoading: boolean;
@@ -32,13 +35,16 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
 }) => {
   return (
     <>
-      <div css={rowContainerStyle}>
-        <ButtonBasic label="prev" handleClick={handlePreviousPage} />
-        <div>{currentPage}</div>
-        <ButtonBasic label="next" handleClick={handleNextPage} />
+      <div css={rowContainerBetweenStyle}>
+        <div css={rowContainerStartCenterStyle}>
+          <ButtonBasic label="<" handleClick={handlePreviousPage} />
+          <span>{currentPage}</span>
+          <ButtonBasic label=">" handleClick={handleNextPage} />
+        </div>
+        <ButtonBasic label="Bulk" handleClick={() => {}} />
       </div>
       {isLoading ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
         <>
           <div css={rowContainerStyle}>
@@ -68,8 +74,6 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
                 </div>
               );
             })}
-
-            {/* <pre>{JSON.stringify(animeList?.Page?.pageInfo)}</pre> */}
           </div>
           <div
             css={css({

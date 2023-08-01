@@ -1,55 +1,69 @@
 import { createContext } from "react";
-import { Anime } from "../interfaces";
+import { Anime, State } from "../interfaces";
 
-export const CollectionContext = createContext({});
-export const CollectionDispatchContext = createContext({});
+export const initialState: State = {
+  errorMessage: "",
+  data:{}
+};
+export const CollectionContext = createContext<State>(initialState);
+export const CollectionDispatchContext = createContext<React.Dispatch<any>>(() => {});
+
+export const initialData = Object.keys(JSON.parse(localStorage.getItem("collections") || "{}")).length > 0 ? {
+  errorMessage: "",
+  data: JSON.parse(localStorage.getItem("collections") || "{}"),
+} : initialState
 
 export const collectionReducer = (
-  state: Record<string, Anime[]> = initialState,
+  state: State = initialData,
   action: Record<string, any>
 ) => {
+  let errorMessage = ""
   switch (action.type) {
     case "ADD_ANIME_TO_COLLECTION": {
       const anime: Anime = {
         id: action.payload.anime.id,
-        title: action.payload.anime.title.english,
+        title: action.payload.anime.title.english ?? action.payload.anime.title.native,
         coverImage: action.payload.anime.coverImage.large,
       };
 
       if (!action.payload.collectionName) {
-        console.log("masuk sini lagi");
-        state["New"] = [anime];
+        state.data["New"] = [anime];
       } else {
-        if (state[action.payload.collectionName]) {
+        if (state.data[action.payload.collectionName]) {
           const collectionName = action.payload.collectionName;
-          const isAnimeExistedInCollection = state[collectionName].find(
+          const isAnimeExistedInCollection = state.data[collectionName].find(
             (anime) => anime.id === action.payload.anime.id
           );
-          console.log(anime.id);
-          console.log(!isAnimeExistedInCollection);
-          if (!isAnimeExistedInCollection) state[collectionName].push(anime);
+
+          if (!isAnimeExistedInCollection) {
+            state.data[collectionName] = [...state.data[collectionName], anime];
+          } else{
+            errorMessage = "Anime already existed in collection"
+          }
         }
       }
-      console.log(state);
-      return state;
+      return {...state, errorMessage};
     }
 
     case "ADD_NEW_COLLECTION": {
-      const collections = Object.keys(state);
-      const isCollectionExisted = collections.find(
+      const collections = Object.keys(state.data);
+      const isCollectionExisted = collections.length > 0 ? collections.find(
         (collection) => collection === action.payload
-      );
+      ) : false
+      console.log(isCollectionExisted)
+      console.log(collections)
       if (!isCollectionExisted) {
-        state[action.payload] = [];
+        state.data[action.payload] = [];
+      } else {
+        errorMessage = "Collection name must be unique"
       }
-      return state;
+      return {...state,errorMessage};
     }
 
     case "UPDATE_COLLECTION_NAME": {
       const prevCollectionName = action.payload.prevCollectionName;
-      const prevCollection = [...state[prevCollectionName]];
-      const collectionNames = Object.keys(state);
-
+      const prevCollection = state.data[prevCollectionName];
+      const collectionNames = Object.keys(state.data);
       const isCollectionUnique =
         collectionNames.findIndex(
           (collection: string) =>
@@ -57,14 +71,12 @@ export const collectionReducer = (
         ) === -1;
 
       if (isCollectionUnique) {
-        state = {
-          ...state,
-          [action.payload.newCollectionName]: prevCollection,
-        };
-        delete state[prevCollectionName];
+        state.data[action.payload.newCollectionName] = prevCollection
+        delete state.data[prevCollectionName];       
+      } else {
+        errorMessage = "Collection name must be unique"
       }
-
-      return state;
+      return {...state,errorMessage};
     }
 
     case "DELETE_ANIME": {
@@ -78,7 +90,18 @@ export const collectionReducer = (
         ...newState[action.payload.collectionName].slice(0, newCollection),
         ...newState[action.payload.collectionName].slice(newCollection + 1),
       ];
-      return newState;
+      return {...newState,errorMessage};
+    }
+
+    case "DELETE_COLLECTION": {
+      const newState = {...state}
+      delete newState.data[action.payload]
+      return {...newState,errorMessage};
+    }
+
+    case "CLEAR_ERROR_MESSAGE":{
+      errorMessage = ""
+      return {...state, errorMessage: ""}
     }
 
     default: {
@@ -88,4 +111,20 @@ export const collectionReducer = (
   return state;
 };
 
-export const initialState: Record<string, Anime[]> = {};
+
+export const addNewAnimeToCollectionAction = (anime:Anime, collectionName: string) => ({
+  type: "ADD_ANIME_TO_COLLECTION",
+  payload: {
+    anime,
+    collectionName
+  }
+})
+
+export const clearErrorMessageAction = () => ({
+  type: "CLEAR_ERROR_MESSAGE",
+})
+
+export const deleteCollectionAction = (prevCollectionName:string) => ({
+  type: "DELETE_COLLECTION",
+  payload: prevCollectionName
+})

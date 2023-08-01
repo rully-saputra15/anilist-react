@@ -19,7 +19,7 @@ const modalStyle = css({
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  zIndex: 100,
+  zIndex: 1000,
 });
 
 const modalContentStyle = css({

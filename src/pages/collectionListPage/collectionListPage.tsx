@@ -1,6 +1,6 @@
 import { FC, useContext } from "react";
 import { CollectionContext } from "../../store/reducer";
-import { Anime } from "../../interfaces";
+import { Anime, State } from "../../interfaces";
 import {
   animeCardCollectionStyle,
   collectionCardContentStyle,
@@ -9,7 +9,7 @@ import {
   primaryDividerStyle,
   titlePageStyle,
 } from "../../styles";
-import { BsPlusCircle } from "react-icons/bs";
+import { BsPlusCircle, BsTrash } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import Button from "../../components/Button";
 import { css } from "@emotion/react";
@@ -18,24 +18,27 @@ import EmptyCollectionPlaceholder from "../../components/EmptyCollectionPlacehol
 type CollectionListPageProps = {
   handleShowModal: () => void;
   handleOpenUpdateCollectionModal: (collectionName: string) => void;
+  handleShowDeleteModal: (collectionName: string) => void;
   handleGoToCollection: (collectionName: string) => void;
 };
 
 const CollectionListPage: FC<CollectionListPageProps> = ({
   handleShowModal,
   handleOpenUpdateCollectionModal,
+  handleShowDeleteModal,
   handleGoToCollection,
 }) => {
-  const collections: Record<string, Anime[]> = useContext(CollectionContext);
+  const collections: State = useContext(CollectionContext);
 
   const renderCollection = () => {
-    return Object.keys(collections).map((key: string) => {
-      const animes = collections[key];
+    return Object.keys(collections.data).map((key: string) => {
+      const animes = collections.data[key];
       return (
         <div css={collectionCardStyle} key={key}>
           <div css={collectionCardHeaderStyle}>
-            <span>{key}</span>
+            <div>{key}</div>
             <FiEdit2 onClick={() => handleOpenUpdateCollectionModal(key)} />
+            <BsTrash onClick={() => handleShowDeleteModal(key)} />
           </div>
 
           <span css={primaryDividerStyle} />

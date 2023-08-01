@@ -1,9 +1,9 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import {
   CollectionContext,
   CollectionDispatchContext,
   collectionReducer,
-  initialState,
+  initialData,
 } from "./reducer";
 
 export const CollectionProvider = ({
@@ -11,7 +11,11 @@ export const CollectionProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [state, dispatch] = useReducer(collectionReducer, initialState);
+  const [state, dispatch] = useReducer(collectionReducer, initialData);
+
+  useEffect(() => {
+    localStorage.setItem("collections", JSON.stringify(state.data));
+  }, [state]);
 
   return (
     <CollectionContext.Provider value={state}>

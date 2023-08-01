@@ -1,4 +1,9 @@
 export interface State {
+  errorMessage: string
+  data: CollectionState;
+}
+
+export interface CollectionState {
   [key: string]: Anime[];
 }
 

@@ -5,18 +5,18 @@ import {
   CollectionContext,
   CollectionDispatchContext,
 } from "../../store/reducer";
-import { Anime } from "../../interfaces";
+import { Anime, State } from "../../interfaces";
 
 const CollectionDetailPageContainer = () => {
   const { collectionName } = useParams();
-  const collections: Record<string, Anime[]> = useContext(CollectionContext);
+  const collections: State = useContext(CollectionContext);
   const dispatch = useContext(CollectionDispatchContext);
   const [animes, setAnimes] = useState<Anime[]>([]);
   console.log(collections);
   useEffect(() => {
     try {
       if (collectionName) {
-        setAnimes(collections[collectionName]);
+        setAnimes(collections.data[collectionName]);
       }
     } catch (err) {
       console.log(err);
@@ -32,6 +32,7 @@ const CollectionDetailPageContainer = () => {
       },
     });
   }, []);
+
   return (
     <CollectionDetailPage
       collectionName={collectionName || ""}

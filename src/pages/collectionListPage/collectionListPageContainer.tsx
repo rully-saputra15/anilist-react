@@ -1,17 +1,41 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CollectionListPage from "./collectionListPage";
-import { CollectionDispatchContext } from "../../store/reducer";
+import {
+  CollectionContext,
+  CollectionDispatchContext,
+  clearErrorMessageAction,
+  deleteCollectionAction,
+} from "../../store/reducer";
 import Modal from "../../components/Modal";
 import { buttonStyle, modalFormStyle } from "../../styles";
 import Input from "../../components/Input";
+import { handleShowErrorToast } from "../../utils/toast";
+import useModal from "../../hooks/useModal";
 
 const CollectionListPageContainer = () => {
+  const collections = useContext(CollectionContext);
   const dispatch = useContext(CollectionDispatchContext);
   const navigate = useNavigate();
-  const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
+  const {
+    isModalOpen: isModalCreateOpen,
+    handleShowModal: handleShowCreateModal,
+    handleCloseModal: handleCloseCreateModal,
+  } = useModal();
+
+  const {
+    isModalOpen: isModalDeleteOpen,
+    handleShowModal: handleShowDeleteModal,
+    handleCloseModal: handleCloseDeleteModal,
+  } = useModal();
+
+  const {
+    isModalOpen: isModalUpdateOpen,
+    handleShowModal: handleShowUpdateModal,
+    handleCloseModal: handleCloseUpdateModal,
+  } = useModal();
+
   const [selectedCollectionName, setSelectedCollectionName] = useState("");
-  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
 
   const handleAddToCollection = useCallback(
     (ev: React.SyntheticEvent) => {
@@ -20,7 +44,7 @@ const CollectionListPageContainer = () => {
         newCollection: { value: string };
       };
       const newCollection = target.newCollection.value;
-      setIsModalCreateOpen(false);
+      handleShowCreateModal();
       dispatch({
         type: "ADD_NEW_COLLECTION",
         payload: newCollection,
@@ -29,13 +53,12 @@ const CollectionListPageContainer = () => {
     [dispatch]
   );
 
-  const handleShowModal = useCallback(() => {
-    setIsModalCreateOpen(!isModalCreateOpen);
-  }, [isModalCreateOpen]);
-
-  const handleCloseUpdateModal = useCallback(() => {
-    setIsModalUpdateOpen(false);
-  }, []);
+  useEffect(() => {
+    if (collections.errorMessage) {
+      handleShowErrorToast(collections.errorMessage);
+      dispatch(clearErrorMessageAction());
+    }
+  }, [dispatch, collections.errorMessage]);
 
   const handleGoToCollection = useCallback((collectionName: string) => {
     navigate(`/collection/${collectionName}`);
@@ -44,7 +67,7 @@ const CollectionListPageContainer = () => {
   const handleOpenUpdateCollectionModal = useCallback(
     (collectionName: string) => {
       setSelectedCollectionName(collectionName);
-      setIsModalUpdateOpen(true);
+      handleShowUpdateModal();
     },
     []
   );
@@ -56,7 +79,7 @@ const CollectionListPageContainer = () => {
         newCollectionName: { value: string };
       };
       const newCollectionName = target.newCollectionName.value;
-      setIsModalCreateOpen(false);
+      handleCloseCreateModal();
       dispatch({
         type: "UPDATE_COLLECTION_NAME",
         payload: {
@@ -64,18 +87,51 @@ const CollectionListPageContainer = () => {
           newCollectionName,
         },
       });
-      setIsModalUpdateOpen(false);
+      handleShowUpdateModal();
     },
     [dispatch, selectedCollectionName]
+  );
+
+  const handleOpenDeleteModal = useCallback(
+    (collectionName: string) => {
+      setSelectedCollectionName(collectionName);
+      handleShowDeleteModal();
+    },
+    [handleShowDeleteModal]
+  );
+
+  const handleConfirmDeleteCollection = useCallback(
+    (ev: React.SyntheticEvent) => {
+      ev.preventDefault();
+      dispatch(deleteCollectionAction(selectedCollectionName));
+      handleCloseDeleteModal();
+    },
+    [dispatch, selectedCollectionName, handleCloseDeleteModal]
   );
 
   return (
     <>
       {isModalCreateOpen && (
-        <Modal title="Add New Collection" handleCloseButton={handleShowModal}>
+        <Modal
+          title="Add New Collection"
+          handleCloseButton={handleCloseCreateModal}
+        >
           <form css={modalFormStyle} onSubmit={handleAddToCollection}>
             <input id="newCollection" name="newCollection" />
             <button type="submit">Add</button>
+          </form>
+        </Modal>
+      )}
+      {isModalDeleteOpen && (
+        <Modal
+          title="Delete Collection"
+          handleCloseButton={handleCloseDeleteModal}
+        >
+          <form css={modalFormStyle} onSubmit={handleConfirmDeleteCollection}>
+            <p>
+              Are you sure you want to delete {`${selectedCollectionName}`}?
+            </p>
+            <button type="submit">Confirm</button>
           </form>
         </Modal>
       )}
@@ -97,8 +153,9 @@ const CollectionListPageContainer = () => {
         </Modal>
       )}
       <CollectionListPage
-        handleShowModal={handleShowModal}
+        handleShowModal={handleShowCreateModal}
         handleOpenUpdateCollectionModal={handleOpenUpdateCollectionModal}
+        handleShowDeleteModal={handleOpenDeleteModal}
         handleGoToCollection={handleGoToCollection}
       />
     </>

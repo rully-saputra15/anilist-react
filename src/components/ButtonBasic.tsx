@@ -17,6 +17,8 @@ const ButtonBasic: FC<ButtonBasicProps> = ({ label, handleClick }) => {
         border: `1px solid ${primaryColor}`,
         fontSize: "0.8rem",
         transition: "all 0.3s ease",
+        fontWeight: "bold",
+        cursor: "pointer",
         [":hover"]: {
           backgroundColor: primaryColor,
           color: "white",

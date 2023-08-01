@@ -20,6 +20,15 @@ export const rowContainerStyle = css({
   gap: "1rem",
 });
 
+export const rowContainerBetweenStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  flexWrap: "wrap",
+  gap: "1rem",
+  paddingBottom: "1rem"
+})
+
 export const rowContainerStartCenterStyle = css({
   display: "flex",
   flexDirection: "row",
@@ -39,8 +48,13 @@ export const cardContainerStyle = css({
   alignItems: "center",
   gap: "0.5rem",
   position: "relative",
-  flex: "1 0 40%",
+  flex: "1 0 2",
   filter: "drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3))",
+  transition: "ease-in-out 0.2s",
+  [`:hover`]: {
+    transform: "scale(1.05) translateY(-5px)",
+  
+  }
 });
 
 export const animeTitle = css({
@@ -53,7 +67,7 @@ export const animeTitle = css({
   fontWeight: "bold",
   position: "absolute",
   bottom: "0",
-  left: 15,
+  padding: "0 8px",
   color: "white",
 });
 
@@ -68,7 +82,6 @@ export const animeScoreCard = css({
   position: "absolute",
   top: 0,
   right: 0,
-  marginRight: "0.7rem",
   fontWeight: "bold",
   padding: "0.2rem",
   borderTopRightRadius: "12px",
@@ -157,8 +170,8 @@ export const collectionCardStyle = css({
   border: `1px solid ${primaryColor}`,
   borderRadius: "15px",
   backgroundColor: "white",
-
   filter: "drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3))",
+  marginBottom:"16px"
 });
 
 export const collectionCardContentStyle = css({
