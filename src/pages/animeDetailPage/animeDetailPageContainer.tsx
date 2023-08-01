@@ -28,6 +28,8 @@ const AnimeDetailPageContainer = () => {
     title: "",
     coverImage: "",
   });
+
+  // TODO User can add an Anime to many collection
   const [selectedCollection, setSelectedCollection] = useState<string>("");
 
   const {

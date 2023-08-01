@@ -12,6 +12,7 @@ import Modal from "../../components/Modal";
 import { modalFormStyle } from "../../styles";
 import Button from "../../components/Button";
 
+// TODO EDIT COLLECTION NAME
 const CollectionDetailPageContainer = () => {
   const { collectionName } = useParams();
   const collections: State = useContext(CollectionContext);

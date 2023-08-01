@@ -19,6 +19,7 @@ export const initialData =
       }
     : initialState;
 
+// TODO Collection Name doesn’t have special Char
 export const collectionReducer = (
   state: State = initialData,
   action: Record<string, any>
