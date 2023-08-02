@@ -3,6 +3,8 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { css } from "@emotion/react";
 import { CollectionProvider } from "./store";
+import { Suspense } from "react";
+import Loading from "./components/Loading";
 
 const App = () => {
   return (
@@ -14,7 +16,9 @@ const App = () => {
         })}
       >
         <CollectionProvider>
-          <Outlet />
+          <Suspense fallback={<Loading />}>
+            <Outlet />
+          </Suspense>
         </CollectionProvider>
       </div>
     </>

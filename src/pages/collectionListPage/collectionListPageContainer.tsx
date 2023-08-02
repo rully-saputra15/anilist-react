@@ -6,6 +6,7 @@ import {
   CollectionDispatchContext,
   clearErrorMessageAction,
   deleteCollectionAction,
+  editCollectionNameAction,
 } from "../../store/reducer";
 import Modal from "../../components/Modal";
 import { buttonStyle, modalFormStyle } from "../../styles";
@@ -44,11 +45,12 @@ const CollectionListPageContainer = () => {
         newCollection: { value: string };
       };
       const newCollection = target.newCollection.value;
-      handleShowCreateModal();
+
       dispatch({
         type: "ADD_NEW_COLLECTION",
         payload: newCollection,
       });
+      handleCloseCreateModal();
     },
     [dispatch]
   );
@@ -80,14 +82,17 @@ const CollectionListPageContainer = () => {
       };
       const newCollectionName = target.newCollectionName.value;
       handleCloseCreateModal();
-      dispatch({
-        type: "UPDATE_COLLECTION_NAME",
-        payload: {
-          prevCollectionName: selectedCollectionName,
-          newCollectionName,
-        },
-      });
-      handleShowUpdateModal();
+      dispatch(
+        editCollectionNameAction(selectedCollectionName, newCollectionName)
+      );
+      // dispatch({
+      //   type: "UPDATE_COLLECTION_NAME",
+      //   payload: {
+      //     prevCollectionName: selectedCollectionName,
+      //     newCollectionName,
+      //   },
+      // });
+      handleCloseUpdateModal();
     },
     [dispatch, selectedCollectionName]
   );
@@ -117,8 +122,15 @@ const CollectionListPageContainer = () => {
           handleCloseButton={handleCloseCreateModal}
         >
           <form css={modalFormStyle} onSubmit={handleAddToCollection}>
-            <input id="newCollection" name="newCollection" />
-            <button type="submit">Add</button>
+            <Input
+              name="newCollection"
+              label="Collection Name"
+              placeholder="ex: My Collection"
+            />
+
+            <button css={buttonStyle} type="submit">
+              Add
+            </button>
           </form>
         </Modal>
       )}
@@ -131,7 +143,9 @@ const CollectionListPageContainer = () => {
             <p>
               Are you sure you want to delete {`${selectedCollectionName}`}?
             </p>
-            <button type="submit">Confirm</button>
+            <button css={buttonStyle} type="submit">
+              Confirm
+            </button>
           </form>
         </Modal>
       )}

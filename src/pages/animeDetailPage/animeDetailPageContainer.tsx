@@ -30,7 +30,7 @@ const AnimeDetailPageContainer = () => {
   });
 
   // TODO User can add an Anime to many collection
-  const [selectedCollection, setSelectedCollection] = useState<string>("");
+  const [selectedCollection, setSelectedCollection] = useState<string[]>([]);
 
   const {
     loading: isLoading,
@@ -47,14 +47,15 @@ const AnimeDetailPageContainer = () => {
 
   useEffect(() => {
     if (data) {
+      const currentCollections: string[] = [];
       Object.keys(collections.data).forEach((key: string) => {
         const collection = collections.data[key];
         const isExist = collection.find(
           (anime) => anime.id === data?.Media?.id
         );
-
-        if (isExist) setSelectedCollection(key);
+        if (isExist) currentCollections.push(key);
       });
+      setSelectedCollection(currentCollections);
     }
   }, [collections, data]);
 
@@ -68,7 +69,7 @@ const AnimeDetailPageContainer = () => {
       try {
         if (!Object.keys(collections.data).length) {
           dispatch(addNewAnimeToCollectionAction(anime, ""));
-          setSelectedCollection("New");
+          setSelectedCollection((prev) => [...prev, "New"]);
           return;
         }
         handleShowModal();
@@ -91,14 +92,17 @@ const AnimeDetailPageContainer = () => {
         addNewAnimeToCollectionAction(selectedAnime, selectedCollection)
       );
       handleCloseModal();
-      setSelectedCollection(selectedCollection);
+      setSelectedCollection((prev) => [...prev, selectedCollection]);
     },
     [dispatch, handleCloseModal, selectedAnime]
   );
 
-  const handleGoToCollectionDetail = useCallback(() => {
-    navigate(`/collection/${selectedCollection}`);
-  }, [navigate, selectedCollection]);
+  const handleGoToCollectionDetail = useCallback(
+    (collection: string) => {
+      navigate(`/collection/${collection}`);
+    },
+    [navigate]
+  );
 
   if (error) return <div>Error...</div>;
 

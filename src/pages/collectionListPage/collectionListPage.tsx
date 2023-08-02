@@ -10,7 +10,7 @@ import {
   titlePageStyle,
 } from "../../styles";
 import { BsPlusCircle, BsTrash } from "react-icons/bs";
-import { FiEdit2 } from "react-icons/fi";
+import { FiEdit2, FiMoreHorizontal } from "react-icons/fi";
 import Button from "../../components/Button";
 import { css } from "@emotion/react";
 import EmptyCollectionPlaceholder from "../../components/EmptyCollectionPlaceholder";
@@ -52,11 +52,15 @@ const CollectionListPage: FC<CollectionListPageProps> = ({
                     src={anime.coverImage}
                     alt={anime.title}
                     css={animeCardCollectionStyle}
-                    onClick={() => handleGoToCollection(key)}
                   />
                 );
               })}
-              {animes.length > 3 && <div>More</div>}
+              {animes.length > 3 && (
+                <FiMoreHorizontal
+                  css={animeCardCollectionStyle}
+                  onClick={() => handleGoToCollection(key)}
+                />
+              )}
             </div>
           ) : (
             <div style={{ width: "100%" }}>
@@ -69,7 +73,7 @@ const CollectionListPage: FC<CollectionListPageProps> = ({
   };
 
   return (
-    <div
+    <section
       css={css({
         display: "flex",
         flexDirection: "column",
@@ -95,7 +99,7 @@ const CollectionListPage: FC<CollectionListPageProps> = ({
         />
       </div>
       <div style={{ width: "100%" }}>{renderCollection()}</div>
-    </div>
+    </section>
   );
 };
 

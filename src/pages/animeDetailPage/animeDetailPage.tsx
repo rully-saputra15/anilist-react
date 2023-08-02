@@ -11,18 +11,18 @@ import {
 } from "../../styles";
 import { css } from "@emotion/react";
 import { Anime } from "../../interfaces";
-import { BsBookmark, BsCardList, BsFillBookmarkFill } from "react-icons/bs";
+import { BsBookmark, BsCardList } from "react-icons/bs";
 import { BiTimeFive, BiArrowBack } from "react-icons/bi";
 import { AiOutlineStar } from "react-icons/ai";
 import Loading from "../../components/Loading";
 
 type AnimeDetailPageProps = {
   data?: GetAnimeDetailQuery;
-  selectedCollection: string;
+  selectedCollection: string[];
   isLoading: boolean;
   handleGoBack: () => void;
   handleAddToCollection: (anime: Anime) => void;
-  handleGoToCollectionDetail: () => void;
+  handleGoToCollectionDetail: (collection: string) => void;
 };
 
 const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
@@ -34,7 +34,7 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
   handleGoToCollectionDetail,
 }) => {
   return (
-    <>
+    <section>
       {isLoading ? (
         <Loading />
       ) : (
@@ -61,21 +61,12 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
               />
               <span css={titlePageStyle}>{data?.Media?.title?.english}</span>
             </div>
-            {selectedCollection ? (
-              <BsFillBookmarkFill
-                css={css({
-                  fontSize: "1.5rem",
-                })}
-                onClick={() => {}}
-              />
-            ) : (
-              <BsBookmark
-                css={css({
-                  fontSize: "1.5rem",
-                })}
-                onClick={() => handleAddToCollection(data?.Media as Anime)}
-              />
-            )}
+            <BsBookmark
+              css={css({
+                fontSize: "1.5rem",
+              })}
+              onClick={() => handleAddToCollection(data?.Media as Anime)}
+            />
           </div>
 
           <div css={animeDetailHeader}>
@@ -103,10 +94,23 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
                   <BsCardList />
                   <span>: {data?.Media?.episodes} episodes</span>
                 </div>
-                {selectedCollection && (
-                  <span onClick={handleGoToCollectionDetail}>
-                    Collection: {selectedCollection}
-                  </span>
+                {selectedCollection.length > 0 && (
+                  <div
+                    css={css({
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "8px",
+                    })}
+                  >
+                    <span>Collection:</span>
+                    {selectedCollection.map((collection) => (
+                      <span
+                        onClick={() => handleGoToCollectionDetail(collection)}
+                      >
+                        {collection}
+                      </span>
+                    ))}
+                  </div>
                 )}
               </div>
             </div>
@@ -133,7 +137,7 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
           />
         </div>
       )}
-    </>
+    </section>
   );
 };
 

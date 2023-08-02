@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { tertiaryColor } from "../styles";
+import { brokenWhiteColor, charcoalColor, tertiaryColor } from "../styles";
 import { NavLink } from "react-router-dom";
 import { GoHomeFill } from "react-icons/go";
 import { BsCollectionFill } from "react-icons/bs";
@@ -7,7 +7,7 @@ const containerCss = css({
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",
-  backgroundColor: tertiaryColor,
+  backgroundColor: charcoalColor,
   fontSize: "1rem",
   padding: "1rem",
   flex: "1 0 auto",
@@ -26,14 +26,21 @@ const menuCss = css({
 
 const linkCss = css({
   textDecoration: "none",
-  color: "black",
-  fontSize: "1.3rem",
+  color: brokenWhiteColor,
+  fontSize: "1.5rem",
 });
 
 const Navbar = () => {
   return (
-    <div css={containerCss}>
-      <span>AniList</span>
+    <nav css={containerCss}>
+      <span
+        css={css({
+          color: brokenWhiteColor,
+          fontSize: "1.2rem",
+        })}
+      >
+        AniList
+      </span>
       <div css={menuCss}>
         <NavLink to="/" css={linkCss}>
           <GoHomeFill />
@@ -42,7 +49,7 @@ const Navbar = () => {
           <BsCollectionFill />
         </NavLink>
       </div>
-    </div>
+    </nav>
   );
 };
 

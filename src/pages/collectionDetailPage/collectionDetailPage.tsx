@@ -24,8 +24,8 @@ const CollectionDetailPage: FC<CollectionDetailPageProps> = ({
   handleOpenDeleteModal,
 }) => {
   return (
-    <div>
-      <div css={titlePageStyle}>{collectionName}</div>
+    <section>
+      <h1 css={titlePageStyle}>{collectionName}</h1>
       <div css={rowContainerStartCenterStyle}>
         {animes.map((anime: Anime) => (
           <div key={anime.id} css={cardContainerStyle}>
@@ -60,7 +60,7 @@ const CollectionDetailPage: FC<CollectionDetailPageProps> = ({
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

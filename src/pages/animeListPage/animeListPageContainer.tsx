@@ -18,6 +18,7 @@ import {
 } from "../../store/reducer";
 
 const NUMBER_OF_ANIME_ADDED = 10;
+
 const AnimeListPageContainer = () => {
   const navigate = useNavigate();
   const page = useRef(1);
@@ -130,7 +131,6 @@ const AnimeListPageContainer = () => {
     [dispatch, selectedAnime, handleCloseModal]
   );
 
-  console.log(selectedAnime);
   if (error) return <div>Error...</div>;
   return (
     <>

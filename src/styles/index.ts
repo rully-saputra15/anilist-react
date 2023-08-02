@@ -13,6 +13,9 @@ export const secondaryColor = "#749BC2";
 export const tertiaryColor = "#91C8E4";
 export const redColor = "#ff5252";
 export const blackColor = "#353839";
+export const charcoalColor = "#36454F";
+export const brokenWhiteColor = "#F8F7F3";
+
 export const rowContainerStyle = css({
   display: "flex",
   flexDirection: "row",
@@ -57,9 +60,9 @@ export const cardContainerStyle = css({
   alignItems: "center",
   gap: "0.5rem",
   position: "relative",
-  flex: "1 0 2",
   filter: "drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3))",
   transition: "ease-in-out 0.2s",
+  cursor: "pointer",
   [`:hover`]: {
     transform: "scale(1.05) translateY(-5px)",
   },
@@ -88,13 +91,36 @@ export const cardImageStyle = css({
   borderRadius: "12px",
 });
 
+export const animeTitleCardList = css({
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  display: "flex",
+  flexDirection: "column",
+  WebkitLineClamp: 1,
+  WebkitBoxOrient: "vertical",
+  fontSize: "0.8rem",
+  fontWeight: "bold",
+  position: "absolute",
+  bottom: 0,
+  padding: "8px 0",
+  justifyContent: "center",
+  alignItems: "center",
+  color: "white",
+  textAlign: "center",
+  backgroundColor: blackColor,
+  width: "100%",
+  borderRadius: "0 0 12px 12px",
+  background: "rgba(0, 0, 0, 0.5)",
+  height: "3rem"
+});
+
 export const animeTitle = css({
   overflow: "hidden",
   textOverflow: "ellipsis",
   display: "-webkit-box",
   WebkitLineClamp: 1,
   WebkitBoxOrient: "vertical",
-
+  fontSize: "0.8rem",
   fontWeight: "bold",
   position: "absolute",
   bottom: "0",
@@ -134,7 +160,7 @@ export const animeDetailHeader = css({
   position: "relative",
   borderRadius: "12px",
   background:
-    "-webkit-linear-gradient(rgba(29, 38, 113, 0.8), rgba(195, 55, 100, 0.8))",
+    "-webkit-linear-gradient(rgba(70, 130, 169, 1), rgba(145, 200, 228, 1))",
 });
 export const animeDetailHeaderContainer = css({
   display: "flex",

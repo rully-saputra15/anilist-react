@@ -10,6 +10,7 @@ import {
   cardImageStyle,
   buttonStyle,
   selectedCardContainerStyle,
+  animeTitleCardList,
 } from "../../styles";
 import "./style.css";
 import { css } from "@emotion/react";
@@ -48,15 +49,24 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
   handleConfirmBulkAdd,
 }) => {
   return (
-    <div>
+    <section>
       {isBulkMode && (
         <div
           css={css({
             position: "fixed",
-            bottom: 10,
-            right: "auto",
-            left: "auto",
-            ...buttonStyle,
+            bottom: "40px",
+            right: "40px",
+            height: "75px",
+            width: "75px",
+            zIndex: 100,
+            backgroundColor: "white",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "50%",
+            cursor: "pointer",
+            filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
           })}
           onClick={() => handleConfirmBulkAdd()}
         >
@@ -105,9 +115,9 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
                     alt={anime?.title?.english || ""}
                     css={cardImageStyle}
                   />
-                  <p css={animeTitle}>
+                  <div css={animeTitleCardList}>
                     {anime?.title?.english ?? anime?.title?.native}
-                  </p>
+                  </div>
                   <div css={animeScoreCard}>
                     <AiFillStar css={css({ color: "yellow" })} />
                     {anime?.averageScore ? anime?.averageScore : "N/A"}
@@ -128,7 +138,7 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 };
 

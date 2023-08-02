@@ -19,7 +19,7 @@ export const initialData =
       }
     : initialState;
 
-// TODO Collection Name doesn’t have special Char
+
 export const collectionReducer = (
   state: State = initialData,
   action: Record<string, any>
@@ -60,10 +60,9 @@ export const collectionReducer = (
         collections.length > 0
           ? collections.find((collection) => collection === action.payload)
           : false;
-      console.log(isCollectionExisted);
-      console.log(collections);
+
       if (!isCollectionExisted) {
-        state.data[action.payload] = [];
+        state.data[action.payload.replace(/[^a-zA-Z0-9 ]/g, '')] = [];
       } else {
         errorMessage = "Collection name must be unique";
       }
@@ -171,3 +170,14 @@ export const bulkAddAnimeToCollectionAction = (
     animes: animes,
   },
 });
+
+export const editCollectionNameAction = (
+  prevCollectionName: string,
+  newCollectionName: string
+) => ({
+  type: "UPDATE_COLLECTION_NAME",
+  payload: {
+    prevCollectionName,
+    newCollectionName,
+  },
+})
