@@ -5,6 +5,7 @@ import {
   collectionReducer,
   initialData,
 } from "./reducer";
+import { handleShowErrorToast, handleShowSuccessToast } from "../utils/toast";
 
 export const CollectionProvider = ({
   children,
@@ -16,6 +17,18 @@ export const CollectionProvider = ({
   useEffect(() => {
     localStorage.setItem("collections", JSON.stringify(state.data));
   }, [state]);
+
+  useEffect(() => {
+    if (state.errorMessage) {
+      handleShowErrorToast(state.errorMessage);
+    }
+  }, [state.errorMessage]);
+
+  useEffect(() => {
+    if (state.successMessage) {
+      handleShowSuccessToast(state.successMessage);
+    }
+  }, [state.successMessage]);
 
   return (
     <CollectionContext.Provider value={state}>

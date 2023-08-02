@@ -37,8 +37,14 @@ const CollectionListPage: FC<CollectionListPageProps> = ({
         <div css={collectionCardStyle} key={key}>
           <div css={collectionCardHeaderStyle}>
             <div>{key}</div>
-            <FiEdit2 onClick={() => handleOpenUpdateCollectionModal(key)} />
-            <BsTrash onClick={() => handleShowDeleteModal(key)} />
+            <FiEdit2
+              css={css({ cursor: "pointer" })}
+              onClick={() => handleOpenUpdateCollectionModal(key)}
+            />
+            <BsTrash
+              css={css({ cursor: "pointer" })}
+              onClick={() => handleShowDeleteModal(key)}
+            />
           </div>
 
           <span css={primaryDividerStyle} />
@@ -52,6 +58,7 @@ const CollectionListPage: FC<CollectionListPageProps> = ({
                     src={anime.coverImage}
                     alt={anime.title}
                     css={animeCardCollectionStyle}
+                    onClick={() => handleGoToCollection(key)}
                   />
                 );
               })}

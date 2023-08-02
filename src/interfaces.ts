@@ -1,5 +1,6 @@
 export interface State {
   errorMessage: string;
+  successMessage: string;
   data: CollectionState;
 }
 

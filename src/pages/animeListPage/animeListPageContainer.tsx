@@ -107,13 +107,30 @@ const AnimeListPageContainer = () => {
     setIsBulkMode(!isBulkMode);
   }, [isBulkMode]);
 
-  const handleAddSelectedAnime = useCallback((anime: Anime) => {
-    setSelectedAnime((prev) => [...prev, anime]);
-  }, []);
+  const handleAddSelectedAnime = useCallback(
+    (anime: Anime) => {
+      const selectedAnimeLoc = selectedAnime.findIndex(
+        (el: Anime) => el.id === anime.id
+      );
+      if (selectedAnimeLoc === -1) {
+        setSelectedAnime((prev) => [...prev, anime]);
+      } else {
+        setSelectedAnime((prev) =>
+          prev.filter((el: Anime) => el.id !== anime.id)
+        );
+      }
+    },
+    [selectedAnime]
+  );
 
   const handleConfirmBulkAdd = useCallback(() => {
+    if (!Object.keys(collections.data).length) {
+      dispatch(bulkAddAnimeToCollectionAction("New", selectedAnime));
+      setIsBulkMode(false);
+      return;
+    }
     handleShowModal();
-  }, [handleShowModal]);
+  }, [handleShowModal, collections.data, dispatch, selectedAnime]);
 
   const handleSubmitModal = useCallback(
     (ev: React.SyntheticEvent) => {

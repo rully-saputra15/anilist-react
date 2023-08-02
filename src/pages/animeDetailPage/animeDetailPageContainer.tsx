@@ -13,7 +13,6 @@ import Modal from "../../components/Modal";
 import { modalFormStyle } from "../../styles";
 import useNavigator from "../../hooks/useNavigator";
 import useModal from "../../hooks/useModal";
-import { handleShowErrorToast } from "../../utils/toast";
 import Button from "../../components/Button";
 import Select from "../../components/Select";
 
@@ -29,7 +28,6 @@ const AnimeDetailPageContainer = () => {
     coverImage: "",
   });
 
-  // TODO User can add an Anime to many collection
   const [selectedCollection, setSelectedCollection] = useState<string[]>([]);
 
   const {
@@ -58,11 +56,6 @@ const AnimeDetailPageContainer = () => {
       setSelectedCollection(currentCollections);
     }
   }, [collections, data]);
-
-  useEffect(() => {
-    if (collections.errorMessage)
-      handleShowErrorToast(collections.errorMessage);
-  }, [collections.errorMessage]);
 
   const handleAddToCollection = useCallback(
     (anime: Anime) => {

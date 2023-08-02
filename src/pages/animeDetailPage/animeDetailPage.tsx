@@ -6,15 +6,19 @@ import {
   animeDetailHeader,
   animeDetailHeaderContainer,
   animeDetailHeaderInformationContainer,
+  badgeStyle,
+  cardContainerStyle,
+  horizontalScrollStyle,
   rowContainerStartCenterStyle,
-  titlePageStyle,
 } from "../../styles";
 import { css } from "@emotion/react";
 import { Anime } from "../../interfaces";
-import { BsBookmark, BsCardList } from "react-icons/bs";
+import { BsCardList, BsCollection } from "react-icons/bs";
+import { MdOutlineCollectionsBookmark } from "react-icons/md";
 import { BiTimeFive, BiArrowBack } from "react-icons/bi";
 import { AiOutlineStar } from "react-icons/ai";
 import Loading from "../../components/Loading";
+import MovieCard from "../../components/MovieCard";
 
 type AnimeDetailPageProps = {
   data?: GetAnimeDetailQuery;
@@ -54,18 +58,30 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
               <BiArrowBack
                 css={css({
                   fontWeight: "bold",
-                  fontSize: "1.5rem",
+                  fontSize: "2rem",
                   cursor: "pointer",
                 })}
                 onClick={handleGoBack}
               />
-              <span css={titlePageStyle}>{data?.Media?.title?.english}</span>
+              <h3>
+                {data?.Media?.title?.english || data?.Media?.title?.native}
+              </h3>
             </div>
-            <BsBookmark
+            <MdOutlineCollectionsBookmark
               css={css({
-                fontSize: "1.5rem",
+                fontSize: "2rem",
+                cursor: "pointer",
               })}
-              onClick={() => handleAddToCollection(data?.Media as Anime)}
+              onClick={() =>
+                handleAddToCollection({
+                  id: data?.Media?.id || 0,
+                  title:
+                    data?.Media?.title?.english ||
+                    data?.Media?.title?.native ||
+                    "",
+                  coverImage: data?.Media?.coverImage?.large || "",
+                })
+              }
             />
           </div>
 
@@ -88,7 +104,7 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
                 </div>
                 <div css={rowContainerStartCenterStyle}>
                   <AiOutlineStar />
-                  <span>: {data?.Media?.averageScore}</span>
+                  <span>: {data?.Media?.averageScore} score</span>
                 </div>
                 <div css={rowContainerStartCenterStyle}>
                   <BsCardList />
@@ -99,12 +115,15 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
                     css={css({
                       display: "flex",
                       flexDirection: "row",
+                      alignItems: "center",
+                      flexWrap: "wrap",
                       gap: "8px",
                     })}
                   >
-                    <span>Collection:</span>
+                    <BsCollection /> {": "}
                     {selectedCollection.map((collection) => (
                       <span
+                        css={badgeStyle}
                         onClick={() => handleGoToCollectionDetail(collection)}
                       >
                         {collection}
@@ -114,6 +133,24 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
                 )}
               </div>
             </div>
+          </div>
+          <h2>Information</h2>
+          <div
+            css={css({
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              gap: "8px",
+            })}
+          >
+            <span>
+              Start Date:{" "}
+              {`${data?.Media?.startDate?.day}-${data?.Media?.startDate?.month}-${data?.Media?.startDate?.year}`}
+            </span>
+            <span>
+              End Date:{" "}
+              {`${data?.Media?.endDate?.day}-${data?.Media?.endDate?.month}-${data?.Media?.endDate?.year}`}
+            </span>
           </div>
           <div>
             Studio:{" "}
@@ -135,6 +172,27 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
               __html: data?.Media?.description ?? " ",
             }}
           />
+          <h2>Recommendations</h2>
+          <div css={horizontalScrollStyle}>
+            {data?.Media?.recommendations?.nodes?.map((anime) => (
+              <MovieCard
+                id={anime?.id || 0}
+                title={
+                  anime?.mediaRecommendation?.title?.english ||
+                  anime?.mediaRecommendation?.title?.native ||
+                  ""
+                }
+                coverImage={
+                  anime?.mediaRecommendation?.coverImage?.medium || ""
+                }
+                averageScore={anime?.mediaRecommendation?.averageScore || 0}
+                style={cardContainerStyle}
+                handleClick={function (): void {
+                  throw new Error("Function not implemented.");
+                }}
+              />
+            ))}
+          </div>
         </div>
       )}
     </section>

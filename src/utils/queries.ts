@@ -72,6 +72,7 @@ query GetAnimeDetail($id: Int) {
           id
           title {
             english
+            native
           }
           coverImage {
             medium

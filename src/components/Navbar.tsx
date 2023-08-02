@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { brokenWhiteColor, charcoalColor, tertiaryColor } from "../styles";
+import { brokenWhiteColor, charcoalColor } from "../styles";
 import { NavLink } from "react-router-dom";
 import { GoHomeFill } from "react-icons/go";
 import { BsCollectionFill } from "react-icons/bs";
@@ -13,7 +13,7 @@ const containerCss = css({
   flex: "1 0 auto",
   position: "sticky",
   top: 0,
-  zIndex: 100,
+  zIndex: 1000,
 });
 
 const menuCss = css({

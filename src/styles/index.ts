@@ -38,7 +38,6 @@ export const rowContainerStartCenterStyle = css({
   flexDirection: "row",
   justifyContent: "flex-start",
   alignItems: "center",
-  flexWrap: "wrap",
   gap: "1rem",
 });
 
@@ -111,7 +110,7 @@ export const animeTitleCardList = css({
   width: "100%",
   borderRadius: "0 0 12px 12px",
   background: "rgba(0, 0, 0, 0.5)",
-  height: "3rem"
+  height: "3rem",
 });
 
 export const animeTitle = css({
@@ -290,4 +289,43 @@ export const inputStyle = css({
   [`:focus`]: {
     outline: "2px solid ${primaryColor}",
   },
+});
+
+export const badgeStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: charcoalColor,
+  padding: "4px 16px",
+  borderRadius: "14px",
+  fontSize: "0.7rem",
+  color: brokenWhiteColor,
+});
+
+export const floatingActionButtonStyle = css({
+  position: "fixed",
+  bottom: "40px",
+  right: "40px",
+  height: "75px",
+  width: "75px",
+  zIndex: 100,
+  backgroundColor: "white",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  borderRadius: "50%",
+  cursor: "pointer",
+  filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+});
+
+export const horizontalScrollStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  alignItems: "center",
+  gap: "16px",
+  overflow: "auto",
+  whiteSpace: "nowrap",
 });

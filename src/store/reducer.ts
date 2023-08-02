@@ -3,6 +3,7 @@ import { Anime, State } from "../interfaces";
 
 export const initialState: State = {
   errorMessage: "",
+  successMessage: "",
   data: {},
 };
 export const CollectionContext = createContext<State>(initialState);
@@ -15,24 +16,23 @@ export const initialData =
   0
     ? {
         errorMessage: "",
+        successMessage: "",
         data: JSON.parse(localStorage.getItem("collections") || "{}"),
       }
     : initialState;
-
 
 export const collectionReducer = (
   state: State = initialData,
   action: Record<string, any>
 ) => {
   let errorMessage = "";
+  let successMessage = "";
   switch (action.type) {
     case "ADD_ANIME_TO_COLLECTION": {
       const anime: Anime = {
         id: action.payload.anime.id,
-        title:
-          action.payload.anime.title.english ??
-          action.payload.anime.title.native,
-        coverImage: action.payload.anime.coverImage.large,
+        title: action.payload.anime.title,
+        coverImage: action.payload.anime.coverImage,
       };
 
       if (!action.payload.collectionName) {
@@ -40,18 +40,20 @@ export const collectionReducer = (
       } else {
         if (state.data[action.payload.collectionName]) {
           const collectionName = action.payload.collectionName;
-          const isAnimeExistedInCollection = state.data[collectionName].find(
-            (anime) => anime.id === action.payload.anime.id
-          );
+          const isAnimeExistedInCollection = state.data[
+            collectionName
+          ].findIndex((anm) => anm.id === anime.id);
 
-          if (!isAnimeExistedInCollection) {
+          if (isAnimeExistedInCollection === -1) {
             state.data[collectionName] = [...state.data[collectionName], anime];
           } else {
             errorMessage = "Anime already existed in collection";
           }
         }
+
+        if (errorMessage === "") successMessage = "Anime added to collection";
       }
-      return { ...state, errorMessage };
+      return { ...state, errorMessage, successMessage };
     }
 
     case "ADD_NEW_COLLECTION": {
@@ -62,18 +64,34 @@ export const collectionReducer = (
           : false;
 
       if (!isCollectionExisted) {
-        state.data[action.payload.replace(/[^a-zA-Z0-9 ]/g, '')] = [];
+        state.data[action.payload.replace(/[^a-zA-Z0-9 ]/g, "")] = [];
+        successMessage = "Collection created";
       } else {
         errorMessage = "Collection name must be unique";
       }
-      return { ...state, errorMessage };
+      return { ...state, errorMessage, successMessage };
     }
 
     case "BULK_ADD_ANIME_TO_COLLECTION": {
       const collectionName = action.payload.collectionName;
       const animes = action.payload.animes;
-      state.data[collectionName] = [...state.data[collectionName], ...animes];
-      return { ...state, errorMessage };
+      if (!state.data[collectionName]) {
+        state.data[collectionName] = [...animes];
+      } else {
+        const animeCollectionId = state.data[collectionName].map(
+          (animCol) => animCol.id
+        );
+        const newAnimes = animes.filter(
+          (elAnime: Anime) => !animeCollectionId.includes(elAnime.id)
+        );
+        state.data[collectionName] = [
+          ...state.data[collectionName],
+          ...newAnimes,
+        ];
+      }
+
+      successMessage = `Anime added to ${collectionName} collection`;
+      return { ...state, errorMessage, successMessage };
     }
 
     case "UPDATE_COLLECTION_NAME": {
@@ -89,10 +107,11 @@ export const collectionReducer = (
       if (isCollectionUnique) {
         state.data[action.payload.newCollectionName] = prevCollection;
         delete state.data[prevCollectionName];
+        successMessage = "Collection name updated";
       } else {
         errorMessage = "Collection name must be unique";
       }
-      return { ...state, errorMessage };
+      return { ...state, errorMessage, successMessage };
     }
 
     case "DELETE_ANIME": {
@@ -111,18 +130,25 @@ export const collectionReducer = (
           newCollection + 1
         ),
       ];
-      return { ...newState, errorMessage };
+      successMessage = "Anime deleted from collection";
+      return { ...newState, errorMessage, successMessage };
     }
 
     case "DELETE_COLLECTION": {
       const newState = { ...state };
       delete newState.data[action.payload];
-      return { ...newState, errorMessage };
+      successMessage = "Collection deleted";
+      return { ...newState, errorMessage, successMessage };
     }
 
     case "CLEAR_ERROR_MESSAGE": {
       errorMessage = "";
-      return { ...state, errorMessage: "" };
+      return { ...state, errorMessage: "", successMessage };
+    }
+
+    case "CLEAR_SUCCESS_MESSAGE": {
+      successMessage = "";
+      return { ...state, errorMessage, successMessage: "" };
     }
 
     default: {
@@ -145,6 +171,10 @@ export const addNewAnimeToCollectionAction = (
 
 export const clearErrorMessageAction = () => ({
   type: "CLEAR_ERROR_MESSAGE",
+});
+
+export const clearSuccessMessageAction = () => ({
+  type: "CLEAR_SUCCESS_MESSAGE",
 });
 
 export const deleteCollectionAction = (prevCollectionName: string) => ({
@@ -180,4 +210,9 @@ export const editCollectionNameAction = (
     prevCollectionName,
     newCollectionName,
   },
-})
+});
+
+export const addNewCollectionAction = (collectionName: string) => ({
+  type: "ADD_NEW_COLLECTION",
+  payload: collectionName,
+});

@@ -4,6 +4,7 @@ import CollectionListPage from "./collectionListPage";
 import {
   CollectionContext,
   CollectionDispatchContext,
+  addNewCollectionAction,
   clearErrorMessageAction,
   deleteCollectionAction,
   editCollectionNameAction,
@@ -46,10 +47,7 @@ const CollectionListPageContainer = () => {
       };
       const newCollection = target.newCollection.value;
 
-      dispatch({
-        type: "ADD_NEW_COLLECTION",
-        payload: newCollection,
-      });
+      dispatch(addNewCollectionAction(newCollection));
       handleCloseCreateModal();
     },
     [dispatch]
