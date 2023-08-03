@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { Anime, State } from "../interfaces";
+import { removeSpecialCharacters } from "../utils/utils";
 
 export const initialState: State = {
   errorMessage: "",
@@ -64,7 +65,7 @@ export const collectionReducer = (
           : false;
 
       if (!isCollectionExisted) {
-        state.data[action.payload.replace(/[^a-zA-Z0-9 ]/g, "")] = [];
+        state.data[removeSpecialCharacters(action.payload)] = [];
         successMessage = "Collection created";
       } else {
         errorMessage = "Collection name must be unique";
@@ -96,16 +97,16 @@ export const collectionReducer = (
 
     case "UPDATE_COLLECTION_NAME": {
       const prevCollectionName = action.payload.prevCollectionName;
+      const newCollectionName = removeSpecialCharacters(action.payload.newCollectionName);
       const prevCollection = state.data[prevCollectionName];
       const collectionNames = Object.keys(state.data);
       const isCollectionUnique =
         collectionNames.findIndex(
           (collection: string) =>
-            collection === action.payload.newCollectionName
+            collection === newCollectionName
         ) === -1;
-
       if (isCollectionUnique) {
-        state.data[action.payload.newCollectionName] = prevCollection;
+        state.data[newCollectionName] = prevCollection;
         delete state.data[prevCollectionName];
         successMessage = "Collection name updated";
       } else {
@@ -152,7 +153,7 @@ export const collectionReducer = (
     }
 
     default: {
-      throw Error("Unknown action: " + action.type);
+      throw Error("Unknown action: " + action);
     }
   }
   return state;

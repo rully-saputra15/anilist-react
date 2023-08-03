@@ -6,7 +6,9 @@ import {
   clearErrorMessageAction,
   clearSuccessMessageAction,
   collectionReducer,
+  deleteAnimeAction,
   deleteCollectionAction,
+  editCollectionNameAction,
   initialData,
 } from "./reducer";
 import { Anime } from "../interfaces";
@@ -53,7 +55,7 @@ describe("reducer", () => {
 
   it("should return success when add new collection", () => {
     expect(
-      collectionReducer(initialData, addNewCollectionAction("Baru"))
+      collectionReducer(initialData, addNewCollectionAction("Baru$%"))
     ).toEqual({
       errorMessage: "",
       successMessage: "Collection created",
@@ -133,6 +135,41 @@ describe("reducer", () => {
       successMessage: "Collection deleted",
       data: {
         Baru: [anime2, anime3, anime4],
+      },
+    });
+  });
+  it("should return success when we update 'Baru' collection to 'Barus'`", () => {
+    expect(
+      collectionReducer(initialData, editCollectionNameAction("Baru","Barus"))
+    ).toEqual({
+      errorMessage: "",
+      successMessage: "Collection name updated",
+      data: {
+        Barus: [anime2, anime3, anime4],
+      },
+    });
+  });
+
+  it("should return success when we update 'Barus' collection to 'Baruscol*%'`", () => {
+    expect(
+      collectionReducer(initialData, editCollectionNameAction("Barus","Baruscol!@"))
+    ).toEqual({
+      errorMessage: "",
+      successMessage: "Collection name updated",
+      data: {
+        Baruscol: [anime2, anime3, anime4],
+      },
+    });
+  });
+
+  it("should return success when we delete anime4 in baruscol collection", () => {
+    expect(
+      collectionReducer(initialData, deleteAnimeAction("Baruscol",anime4.id))
+    ).toEqual({
+      errorMessage: "",
+      successMessage: "Anime deleted from collection",
+      data: {
+        Baruscol: [anime2, anime3],
       },
     });
   });

@@ -7,6 +7,8 @@ import {
   rowContainerBetweenStyle,
   selectedCardContainerStyle,
   floatingActionButtonStyle,
+  buttonPage,
+  buttonCurrentPage,
 } from "../../styles";
 import "./style.css";
 import { css } from "@emotion/react";
@@ -16,6 +18,8 @@ import { Anime } from "../../interfaces";
 import MovieCard from "../../components/MovieCard";
 
 type AnimeListPageProps = {
+  firstPage: number;
+  lastPage: number;
   isLoading: boolean;
   isBulkMode: boolean;
   currentPage: number;
@@ -23,6 +27,7 @@ type AnimeListPageProps = {
   animeList?: GetAnimeListQuery;
   observerTarget: React.MutableRefObject<null>;
   handleGoToAnimeDetail: (id: number) => void;
+  handleClickPage: (page: number) => void;
   handlePreviousPage: () => void;
   handleNextPage: () => void;
   handleEnableBulkMode: () => void;
@@ -31,9 +36,12 @@ type AnimeListPageProps = {
 };
 
 const AnimeListPage: FC<AnimeListPageProps> = ({
+  firstPage,
+  lastPage,
   isLoading,
   isBulkMode,
   currentPage,
+  handleClickPage,
   selectedAnime,
   animeList,
   observerTarget,
@@ -44,6 +52,22 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
   handleAddSelectedAnime,
   handleConfirmBulkAdd,
 }) => {
+  const renderPageNumbers = () => {
+    const pages: JSX.Element[] = [];
+
+    for (let idx = firstPage; idx <= lastPage; idx++) {
+      pages.push(
+        <button
+          key={idx}
+          onClick={() => handleClickPage(idx)}
+          css={currentPage === idx ? buttonCurrentPage : buttonPage}
+        >
+          {idx}
+        </button>
+      );
+    }
+    return pages;
+  };
   return (
     <section>
       {isBulkMode && (
@@ -57,7 +81,7 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
       <div css={rowContainerBetweenStyle}>
         <div css={rowContainerStartCenterStyle}>
           <ButtonBasic label="<" handleClick={handlePreviousPage} />
-          <span>{currentPage}</span>
+          {renderPageNumbers()}
           <ButtonBasic label=">" handleClick={handleNextPage} />
         </div>
         <ButtonBasic

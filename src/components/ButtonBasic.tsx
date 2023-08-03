@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { css } from "@emotion/react";
-import { primaryColor } from "../styles";
+import { brokenWhiteColor, charcoalColor } from "../styles";
 
 type ButtonBasicProps = {
   label: string;
@@ -14,14 +14,14 @@ const ButtonBasic: FC<ButtonBasicProps> = ({ label, handleClick }) => {
         padding: "0.5rem 0.75rem",
         borderRadius: "8px",
         backgroundColor: "transparent",
-        border: `1px solid ${primaryColor}`,
+        border: `1px solid ${charcoalColor}`,
         fontSize: "0.8rem",
         transition: "all 0.3s ease",
         fontWeight: "bold",
         cursor: "pointer",
         [":hover"]: {
-          backgroundColor: primaryColor,
-          color: "white",
+          backgroundColor: charcoalColor,
+          color: brokenWhiteColor,
         },
       })}
       onClick={handleClick}

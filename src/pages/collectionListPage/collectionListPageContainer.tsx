@@ -83,13 +83,6 @@ const CollectionListPageContainer = () => {
       dispatch(
         editCollectionNameAction(selectedCollectionName, newCollectionName)
       );
-      // dispatch({
-      //   type: "UPDATE_COLLECTION_NAME",
-      //   payload: {
-      //     prevCollectionName: selectedCollectionName,
-      //     newCollectionName,
-      //   },
-      // });
       handleCloseUpdateModal();
     },
     [dispatch, selectedCollectionName]

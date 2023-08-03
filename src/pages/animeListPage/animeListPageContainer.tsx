@@ -16,12 +16,12 @@ import {
   CollectionDispatchContext,
   bulkAddAnimeToCollectionAction,
 } from "../../store/reducer";
+import usePagination from "../../hooks/usePagination";
 
 const NUMBER_OF_ANIME_ADDED = 10;
 
 const AnimeListPageContainer = () => {
   const navigate = useNavigate();
-  const page = useRef(1);
   const perPage = useRef(10);
   const observerTarget = useRef(null);
   const collections = useContext(CollectionContext);
@@ -29,6 +29,15 @@ const AnimeListPageContainer = () => {
   const [selectedAnime, setSelectedAnime] = useState<Anime[]>([]);
   const [isBulkMode, setIsBulkMode] = useState(false);
   const { isModalOpen, handleCloseModal, handleShowModal } = useModal();
+  const {
+    firstPage,
+    currentPage,
+    lastPage,
+    handleClickPage,
+    handleNextPage: handleNextPagination,
+    handlePrevPage: handlePrevPagination,
+    handleSetTotalPage,
+  } = usePagination();
 
   const {
     loading: isLoading,
@@ -37,7 +46,7 @@ const AnimeListPageContainer = () => {
     refetch,
   } = useQuery(GET_ANIME_LIST, {
     variables: {
-      page: page.current,
+      page: currentPage,
       perPage: perPage.current,
     },
   });
@@ -83,24 +92,32 @@ const AnimeListPageContainer = () => {
     setSelectedAnime([]);
   }, [isBulkMode]);
 
+  useEffect(() => {
+    if (animeList?.Page?.pageInfo?.total) {
+      handleSetTotalPage(animeList?.Page?.pageInfo?.total);
+    }
+  }, [animeList]);
+
   const handlePreviousPage = useCallback(async () => {
-    if (page.current > 1) {
-      page.current -= 1;
+    const page = currentPage - 1;
+    if (currentPage > 1) {
       perPage.current = 10;
       await refetch({
-        page: page.current,
+        page: page,
         perPage: perPage.current,
       });
     }
+    handlePrevPagination();
   }, [refetch]);
 
   const handleNextPage = useCallback(async () => {
-    page.current += 1;
+    const page = currentPage + 1;
     perPage.current = 10;
     await refetch({
-      page: page.current,
+      page: page,
       perPage: perPage.current,
     });
+    handleNextPagination();
   }, [refetch]);
 
   const handleEnableBulkMode = useCallback(() => {
@@ -164,13 +181,16 @@ const AnimeListPageContainer = () => {
         </Modal>
       )}
       <AnimeListPage
+        firstPage={firstPage}
+        currentPage={currentPage}
+        lastPage={lastPage}
         isLoading={isLoading}
         isBulkMode={isBulkMode}
         animeList={animeList}
         selectedAnime={selectedAnime}
-        currentPage={page.current}
         observerTarget={observerTarget}
         handleGoToAnimeDetail={handleGoToAnimeDetail}
+        handleClickPage={handleClickPage}
         handleAddSelectedAnime={handleAddSelectedAnime}
         handlePreviousPage={handlePreviousPage}
         handleNextPage={handleNextPage}

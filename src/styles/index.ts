@@ -39,6 +39,7 @@ export const rowContainerStartCenterStyle = css({
   justifyContent: "flex-start",
   alignItems: "center",
   gap: "1rem",
+  flexWrap: "wrap",
 });
 
 export const columnContainerStartCenterStyle = css({
@@ -254,7 +255,7 @@ export const buttonStyle = css({
   gap: "0.5rem",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: primaryColor,
+  backgroundColor: charcoalColor,
   fontSize: "1rem",
   border: 0,
   padding: "8px 12px",
@@ -263,8 +264,8 @@ export const buttonStyle = css({
   transition: "ease-in-out 0.2s",
   cursor: "pointer",
   [`:hover`]: {
-    backgroundColor: secondaryColor,
-    color: "black",
+    backgroundColor: brokenWhiteColor,
+    color: charcoalColor,
   },
 });
 
@@ -329,3 +330,28 @@ export const horizontalScrollStyle = css({
   overflow: "auto",
   whiteSpace: "nowrap",
 });
+
+export const buttonPage = css({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "6px 12px",
+  backgroundColor: "white",
+  borderRadius: "8px",
+  border: `1px solid ${charcoalColor}`,
+})
+
+export const buttonCurrentPage = css({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "6px 12px",
+  backgroundColor: charcoalColor,
+  color: brokenWhiteColor,
+  fontWeight: "bold",
+  borderRadius: "8px",
+  border: `1px solid ${charcoalColor}`,
+
+})

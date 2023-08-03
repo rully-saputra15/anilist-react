@@ -1,5 +1,5 @@
-import { expect, it, vi, describe, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { it, vi, describe, beforeEach } from "vitest";
+import { render } from "@testing-library/react";
 import AnimeListPage from "./animeListPage";
 import ReactDOM from "react-dom";
 
@@ -7,6 +7,8 @@ describe("AnimeListPage", () => {
   beforeEach(() => {
     render(
       <AnimeListPage
+        firstPage={0}
+        lastPage={0}
         isLoading={false}
         isBulkMode={false}
         currentPage={0}
@@ -18,6 +20,7 @@ describe("AnimeListPage", () => {
         handleEnableBulkMode={vi.fn()}
         handleAddSelectedAnime={vi.fn()}
         handleConfirmBulkAdd={vi.fn()}
+        handleClickPage={vi.fn()}
       />
     );
   });
@@ -25,6 +28,8 @@ describe("AnimeListPage", () => {
     const div = document.createElement("div");
     ReactDOM.render(
       <AnimeListPage
+        firstPage={0}
+        lastPage={0}
         isLoading={false}
         isBulkMode={true}
         currentPage={0}
@@ -36,6 +41,7 @@ describe("AnimeListPage", () => {
         handleEnableBulkMode={vi.fn()}
         handleAddSelectedAnime={vi.fn()}
         handleConfirmBulkAdd={vi.fn()}
+        handleClickPage={vi.fn()}
       />,
       div
     );
@@ -57,6 +63,9 @@ describe("AnimeListPage", () => {
         handleEnableBulkMode={vi.fn()}
         handleAddSelectedAnime={vi.fn()}
         handleConfirmBulkAdd={vi.fn()}
+        firstPage={0}
+        lastPage={0}
+        handleClickPage={vi.fn()}
       />,
       div
     );
