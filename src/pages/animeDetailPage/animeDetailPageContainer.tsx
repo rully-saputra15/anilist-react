@@ -97,6 +97,13 @@ const AnimeDetailPageContainer = () => {
     [navigate]
   );
 
+  const handleGoToAnimeDetail = useCallback(
+    (id: number) => {
+      navigate(`/anime/${id}`);
+    },
+    [navigate]
+  );
+
   if (error) return <div>Error...</div>;
 
   return (
@@ -120,6 +127,7 @@ const AnimeDetailPageContainer = () => {
         handleGoBack={handleGoBack}
         handleAddToCollection={handleAddToCollection}
         handleGoToCollectionDetail={handleGoToCollectionDetail}
+        handleGoToAnimeDetail={handleGoToAnimeDetail}
       />
     </>
   );

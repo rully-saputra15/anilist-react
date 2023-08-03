@@ -27,6 +27,7 @@ type AnimeDetailPageProps = {
   handleGoBack: () => void;
   handleAddToCollection: (anime: Anime) => void;
   handleGoToCollectionDetail: (collection: string) => void;
+  handleGoToAnimeDetail: (id: number) => void;
 };
 
 const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
@@ -36,6 +37,7 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
   handleGoBack,
   handleAddToCollection,
   handleGoToCollectionDetail,
+  handleGoToAnimeDetail,
 }) => {
   return (
     <section>
@@ -176,6 +178,7 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
           <div css={horizontalScrollStyle}>
             {data?.Media?.recommendations?.nodes?.map((anime) => (
               <MovieCard
+                key={anime?.id || 0}
                 id={anime?.id || 0}
                 title={
                   anime?.mediaRecommendation?.title?.english ||
@@ -187,9 +190,7 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
                 }
                 averageScore={anime?.mediaRecommendation?.averageScore || 0}
                 style={cardContainerStyle}
-                handleClick={function (): void {
-                  throw new Error("Function not implemented.");
-                }}
+                handleClick={() => handleGoToAnimeDetail(anime?.id || 0)}
               />
             ))}
           </div>
