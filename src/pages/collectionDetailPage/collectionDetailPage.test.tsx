@@ -13,6 +13,7 @@ describe("CollectionDetailPage", () => {
         handleOpenDeleteModal={vi.fn()}
         handleShowUpdateModal={vi.fn()}
         handleGoToAnimeDetail={vi.fn()}
+        handleGoBack={vi.fn()}
       />
     );
   });
@@ -26,6 +27,7 @@ describe("CollectionDetailPage", () => {
         handleOpenDeleteModal={vi.fn()}
         handleShowUpdateModal={vi.fn()}
         handleGoToAnimeDetail={vi.fn()}
+        handleGoBack={vi.fn()}
       />,
       div
     );

@@ -2,20 +2,21 @@ import { FC } from "react";
 import { Anime, SelectedAnime } from "../../interfaces";
 import {
   animeTitle,
-  blackColor,
+  backButtonStyle,
   cardContainerStyle,
   cardImageStyle,
-  redColor,
   rowContainerStartCenterStyle,
   titlePageStyle,
+  trashIconStyle,
 } from "../../styles";
-import { BiSolidTrash } from "react-icons/bi";
+import { BiArrowBack, BiSolidTrash } from "react-icons/bi";
 import { css } from "@emotion/react";
 import { FiEdit2 } from "react-icons/fi";
 
 type CollectionDetailPageProps = {
   collectionName: string;
   animes: Anime[];
+  handleGoBack: () => void;
   handleOpenDeleteModal: (anime: SelectedAnime) => void;
   handleShowUpdateModal: () => void;
   handleGoToAnimeDetail: (id: number) => void;
@@ -24,13 +25,15 @@ type CollectionDetailPageProps = {
 const CollectionDetailPage: FC<CollectionDetailPageProps> = ({
   collectionName,
   animes,
+  handleGoBack,
   handleOpenDeleteModal,
   handleShowUpdateModal,
   handleGoToAnimeDetail,
 }) => {
   return (
-    <section >
+    <section>
       <h1 css={titlePageStyle}>
+        <BiArrowBack css={backButtonStyle} onClick={handleGoBack} />
         {collectionName}{" "}
         <FiEdit2
           css={css({ cursor: "pointer" })}
@@ -48,21 +51,7 @@ const CollectionDetailPage: FC<CollectionDetailPageProps> = ({
             />
             <div css={animeTitle}>{anime.title}</div>
             <BiSolidTrash
-              css={css({
-                position: "absolute",
-                bottom: 40,
-                fontSize: "2rem",
-                cursor: "pointer",
-                color: redColor,
-                padding: "0.5rem",
-                backgroundColor: blackColor,
-                borderRadius: "50%",
-                transition: "all 0.3s ease",
-                ["&:hover"]: {
-                  transform: "scale(1.2)",
-                  backgroundColor: "white",
-                },
-              })}
+              css={trashIconStyle}
               onClick={() =>
                 handleOpenDeleteModal({ id: anime.id, title: anime.title })
               }

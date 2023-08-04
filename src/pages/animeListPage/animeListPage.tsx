@@ -110,7 +110,7 @@ const AnimeListPage: FC<AnimeListPageProps> = ({
                 <MovieCard
                   key={anime?.id}
                   id={anime?.id || 0}
-                  title={anime?.title?.english || ""}
+                  title={anime?.title?.english || anime?.title?.native || ""}
                   style={
                     isSelected ? selectedCardContainerStyle : cardContainerStyle
                   }

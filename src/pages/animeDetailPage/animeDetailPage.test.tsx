@@ -11,6 +11,7 @@ describe("AnimeDetailPage", () => {
       handleGoBack={vi.fn()}
       handleAddToCollection={vi.fn()}
       handleGoToCollectionDetail={vi.fn()}
+      handleGoToAnimeDetail={vi.fn()}
     />;
   });
   it("renders without crashing", () => {
@@ -23,6 +24,7 @@ describe("AnimeDetailPage", () => {
         handleGoBack={vi.fn()}
         handleAddToCollection={vi.fn()}
         handleGoToCollectionDetail={vi.fn()}
+        handleGoToAnimeDetail={vi.fn()}
       />,
       div
     );

@@ -13,13 +13,14 @@ import Modal from "../../components/Modal";
 import { buttonStyle, modalFormStyle } from "../../styles";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
+import useNavigator from "../../hooks/useNavigator";
 
-// TODO EDIT COLLECTION NAME
 const CollectionDetailPageContainer = () => {
   const { collectionName } = useParams();
   const collections: State = useContext(CollectionContext);
   const dispatch = useContext(CollectionDispatchContext);
   const navigate = useNavigate();
+  const { handleGoBack } = useNavigator();
 
   const { isModalOpen, handleCloseModal, handleShowModal } = useModal();
   const {
@@ -102,6 +103,7 @@ const CollectionDetailPageContainer = () => {
       <CollectionDetailPage
         collectionName={collectionName || ""}
         animes={collections.data[collectionName as string] || []}
+        handleGoBack={handleGoBack}
         handleOpenDeleteModal={handleOpenDeleteModal}
         handleShowUpdateModal={handleShowUpdateModal}
         handleGoToAnimeDetail={handleGoToAnimeDetail}

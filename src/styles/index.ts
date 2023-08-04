@@ -49,9 +49,37 @@ export const columnContainerStartCenterStyle = css({
   alignItems: "center",
 });
 
+export const animeDetailPageContainerStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  flex: 1,
+})
+
+export const selectedCollectionContainerStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  flexWrap: "wrap",
+  gap: "8px",
+})
+
+export const animeDetailPageInformationContainerStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  gap: "8px",
+})
+
 export const titlePageStyle = css({
   fontSize: "1.5rem",
   fontWeight: "bold",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  alignItems: "center",
+  gap: "8px",
 });
 export const cardContainerStyle = css({
   display: "flex",
@@ -81,8 +109,6 @@ export const selectedCardContainerStyle = css({
     transform: "scale(1.05) translateY(-5px)",
   },
   opacity: "0.5",
-  // background:
-  //   "-webkit-linear-gradient(rgba(29, 38, 113, 0.8), rgba(195, 55, 100, 0.8))",
 });
 
 export const cardImageStyle = css({
@@ -160,7 +186,7 @@ export const animeDetailHeader = css({
   position: "relative",
   borderRadius: "12px",
   background:
-    "-webkit-linear-gradient(rgba(70, 130, 169, 1), rgba(145, 200, 228, 1))",
+    "-webkit-linear-gradient(rgba(0, 0, 0, 1), rgba(255, 255, 255, 1))",
 });
 export const animeDetailHeaderContainer = css({
   display: "flex",
@@ -339,6 +365,7 @@ export const buttonPage = css({
   padding: "6px 12px",
   backgroundColor: "white",
   borderRadius: "8px",
+  cursor: "pointer",
   border: `1px solid ${charcoalColor}`,
 })
 
@@ -352,6 +379,44 @@ export const buttonCurrentPage = css({
   color: brokenWhiteColor,
   fontWeight: "bold",
   borderRadius: "8px",
+  cursor: "pointer",
   border: `1px solid ${charcoalColor}`,
+})
 
+export const backButtonStyle = css({
+  fontWeight: "bold",
+  fontSize: "2rem",
+  cursor: "pointer",
+})
+
+export const trashIconStyle = css({
+  position: "absolute",
+  bottom: 40,
+  fontSize: "2rem",
+  cursor: "pointer",
+  color: redColor,
+  padding: "0.5rem",
+  backgroundColor: blackColor,
+  borderRadius: "50%",
+  transition: "all 0.3s ease",
+  ["&:hover"]: {
+    transform: "scale(1.2)",
+    backgroundColor: "white",
+  },
+})
+
+export const collectionListContainerStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-start",
+  alignItems: "flex-start",
+  gap: "1rem",
+})
+
+export const collectionListHeaderStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  width: "100%",
 })

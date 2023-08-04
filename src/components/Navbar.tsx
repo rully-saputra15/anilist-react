@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
 import { brokenWhiteColor, charcoalColor } from "../styles";
-import { NavLink } from "react-router-dom";
-import { GoHomeFill } from "react-icons/go";
+import { NavLink, useNavigate } from "react-router-dom";
 import { BsCollectionFill } from "react-icons/bs";
+import { useCallback } from "react";
 const containerCss = css({
   display: "flex",
   flexDirection: "row",
@@ -31,20 +31,25 @@ const linkCss = css({
 });
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const handleGoToHome = useCallback(() => {
+    navigate("/");
+  }, []);
   return (
     <nav css={containerCss}>
       <span
         css={css({
           color: brokenWhiteColor,
           fontSize: "1.2rem",
+          fontWeight: "bold",
+          textDecoration: "underline",
+          cursor: "pointer",
         })}
+        onClick={handleGoToHome}
       >
         AniList
       </span>
       <div css={menuCss}>
-        <NavLink to="/" css={linkCss}>
-          <GoHomeFill />
-        </NavLink>
         <NavLink to="/collection" css={linkCss}>
           <BsCollectionFill />
         </NavLink>

@@ -6,10 +6,14 @@ import {
   animeDetailHeader,
   animeDetailHeaderContainer,
   animeDetailHeaderInformationContainer,
+  animeDetailPageContainerStyle,
+  animeDetailPageInformationContainerStyle,
+  backButtonStyle,
   badgeStyle,
   cardContainerStyle,
   horizontalScrollStyle,
   rowContainerStartCenterStyle,
+  selectedCollectionContainerStyle,
 } from "../../styles";
 import { css } from "@emotion/react";
 import { Anime } from "../../interfaces";
@@ -47,24 +51,9 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
         <div
           css={css({ display: "flex", flexDirection: "column", gap: "8px" })}
         >
-          <div
-            css={css({
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flex: 1,
-            })}
-          >
+          <div css={animeDetailPageContainerStyle}>
             <div css={rowContainerStartCenterStyle}>
-              <BiArrowBack
-                css={css({
-                  fontWeight: "bold",
-                  fontSize: "2rem",
-                  cursor: "pointer",
-                })}
-                onClick={handleGoBack}
-              />
+              <BiArrowBack css={backButtonStyle} onClick={handleGoBack} />
               <h3>
                 {data?.Media?.title?.english || data?.Media?.title?.native}
               </h3>
@@ -113,15 +102,7 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
                   <span>: {data?.Media?.episodes} episodes</span>
                 </div>
                 {selectedCollection.length > 0 && (
-                  <div
-                    css={css({
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      flexWrap: "wrap",
-                      gap: "8px",
-                    })}
-                  >
+                  <div css={selectedCollectionContainerStyle}>
                     <BsCollection /> {": "}
                     {selectedCollection.map((collection) => (
                       <span
@@ -137,14 +118,7 @@ const AnimeDetailPage: FC<AnimeDetailPageProps> = ({
             </div>
           </div>
           <h2>Information</h2>
-          <div
-            css={css({
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              gap: "8px",
-            })}
-          >
+          <div css={animeDetailPageInformationContainerStyle}>
             <span>
               Start Date:{" "}
               {`${data?.Media?.startDate?.day}-${data?.Media?.startDate?.month}-${data?.Media?.startDate?.year}`}

@@ -6,6 +6,8 @@ import {
   collectionCardContentStyle,
   collectionCardHeaderStyle,
   collectionCardStyle,
+  collectionListContainerStyle,
+  collectionListHeaderStyle,
   primaryDividerStyle,
   titlePageStyle,
 } from "../../styles";
@@ -80,24 +82,8 @@ const CollectionListPage: FC<CollectionListPageProps> = ({
   };
 
   return (
-    <section
-      css={css({
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
-        gap: "1rem",
-      })}
-    >
-      <div
-        css={css({
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: "100%",
-        })}
-      >
+    <section css={collectionListContainerStyle}>
+      <div css={collectionListHeaderStyle}>
         <span css={titlePageStyle}>Collections</span>
         <Button
           label="Collection"
