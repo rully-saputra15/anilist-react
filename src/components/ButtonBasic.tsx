@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { css } from "@emotion/react";
 import { brokenWhiteColor, charcoalColor } from "../styles";
 
@@ -31,4 +31,4 @@ const ButtonBasic: FC<ButtonBasicProps> = ({ label, handleClick }) => {
   );
 };
 
-export default ButtonBasic;
+export default memo(ButtonBasic);

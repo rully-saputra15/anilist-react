@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { buttonStyle } from "../styles";
 
 type ButtonProps = {
@@ -16,4 +16,4 @@ const Button: FC<ButtonProps> = ({ icon, label, handleClick }) => {
   );
 };
 
-export default Button;
+export default memo(Button);

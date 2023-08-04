@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { memo } from "react";
 
 const EmptyCollectionPlaceholder = () => {
   return (
@@ -18,4 +19,4 @@ const EmptyCollectionPlaceholder = () => {
   );
 };
 
-export default EmptyCollectionPlaceholder;
+export default memo(EmptyCollectionPlaceholder);

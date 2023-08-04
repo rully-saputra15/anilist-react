@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { animeScoreCard, animeTitleCardList, cardImageStyle } from "../styles";
 import { SerializedStyles, css } from "@emotion/react";
 import { AiFillStar } from "react-icons/ai";
@@ -32,4 +32,4 @@ const MovieCard: FC<MovieCardProps> = ({
   );
 };
 
-export default MovieCard;
+export default memo(MovieCard);

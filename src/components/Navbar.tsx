@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { brokenWhiteColor, charcoalColor } from "../styles";
 import { NavLink, useNavigate } from "react-router-dom";
 import { BsCollectionFill } from "react-icons/bs";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 const containerCss = css({
   display: "flex",
   flexDirection: "row",
@@ -58,4 +58,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default memo(Navbar);
