@@ -2,8 +2,6 @@ name: firebase-deploy
 run-name: ${{github.actor}} - ${{github.sha}}
 on: [push]
 jobs:
-  build:
-    environment: Production
   firebase-deploy:
     runs-on: ubuntu-latest
     steps:
