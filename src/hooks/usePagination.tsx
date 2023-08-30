@@ -8,6 +8,7 @@ const usePagination = () => {
   const [isLastPage, setIsLastPage] = useState(false);
   const [isFirstPage, setIsFirstPage] = useState(false);
 
+  // function for handle increment of page
   const handleNextPage = useCallback(() => {
     if (currentPage === totalPage) {
       setIsLastPage(true);
@@ -17,6 +18,8 @@ const usePagination = () => {
       setLastPage((prev) => prev + 1);
     }
   }, [currentPage]);
+
+  // function for handle decrement of page
 
   const handlePrevPage = useCallback(() => {
     if (currentPage === 1) {
@@ -28,10 +31,13 @@ const usePagination = () => {
     }
   }, [currentPage]);
 
+  // function for set total page from API
+
   const handleSetTotalPage = useCallback((totalPage: number) => {
     setTotalPage(totalPage);
   }, []);
 
+  // function for handle click button and set the current page
   const handleClickPage = useCallback((page: number) => {
     setCurrentPage(page);
   }, []);

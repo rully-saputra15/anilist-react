@@ -47,7 +47,7 @@ const Navbar = () => {
         })}
         onClick={handleGoToHome}
       >
-        AniList
+        AniListi
       </span>
       <div css={menuCss}>
         <NavLink to="/collection" css={linkCss}>
